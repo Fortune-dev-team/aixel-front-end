@@ -1,0 +1,44 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# testing
+/coverage
+/playwright-report/
+/test-results/
+
+# env files (keep the example)
+.env*
+!.env.example
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# deploy
+.vercel
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editor (optional, remove if your team shares these)
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
