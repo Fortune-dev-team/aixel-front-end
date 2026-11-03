@@ -37,7 +37,7 @@ export default function Home() {
       {/* Hero */}
       <section className="grid items-center gap-10 md:grid-cols-2">
         <div>
-          <h1 className="text-4xl leading-tight md:text-5xl">
+          <h1 className="text-4xl leading-tight md:text-5xl font-secondary">
             Pemetaan kompetensi dan mentoring untuk tim startup
           </h1>
           <p className="mt-5 max-w-md text-muted-foreground">
