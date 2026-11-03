@@ -1,0 +1,26 @@
+[15:04:21.314] [INFO] storybook v10.6.5
+[15:04:21.910] [DEBUG] Command "yarn.cmd" not found, trying next variation...
+[15:04:21.975] [DEBUG] Command "yarn.exe" not found, trying next variation...
+[15:04:22.039] [DEBUG] Command "yarn.ps1" not found, trying next variation...
+[15:04:22.169] [DEBUG] Command "pnpm.cmd" not found, trying next variation...
+[15:04:22.236] [DEBUG] Command "pnpm.exe" not found, trying next variation...
+[15:04:22.301] [DEBUG] Command "pnpm.ps1" not found, trying next variation...
+[15:04:22.770] [DEBUG] Getting package.json info for D:/Mizan/Semester5/aixel/aixel-front-end/package.json...
+[15:04:24.079] [DEBUG] Could not determine @babel/preset-env version in use. In case of runtime errors with @babel/preset-env, you may need to set the babelRemoveBugfixes feature flag in your `main.ts` file.
+[15:04:25.148] [WARN] No story files found for the specified pattern: [34msrc\**\*.mdx[39m
+[15:04:25.270] [WARN] 🚨 Unable to index files:
+- ./src/components/ui/button.stories.tsx,./src/components/ui/input.stories.tsx: Duplicate stories with id: atoms-input--default
+- ./src/components/ui/button.stories.tsx,./src/components/ui/input.stories.tsx: Duplicate stories with id: atoms-input--large
+[15:04:25.274] [ERROR] Error: [38;2;241;97;97mUnable to index files:
+- ./src/components/ui/button.stories.tsx,./src/components/ui/input.stories.tsx: Duplicate stories with id: atoms-input--default
+- ./src/components/ui/button.stories.tsx,./src/components/ui/input.stories.tsx: Duplicate stories with id: atoms-input--large[39m
+    at _StoryIndexGenerator.getIndexAndStats (file:///D:/Mizan/Semester5/aixel/aixel-front-end/node_modules/storybook/dist/core-server/index.js:17064:15)
+    at async _StoryIndexGenerator.getIndex (file:///D:/Mizan/Semester5/aixel/aixel-front-end/node_modules/storybook/dist/core-server/index.js:17043:13)
+    at async createTestRunnerStore (file:///D:/Mizan/Semester5/aixel/aixel-front-end/node_modules/@storybook/addon-vitest/dist/preset.js:459:14)
+    at async Object.experimental_serverChannel (file:///D:/Mizan/Semester5/aixel/aixel-front-end/node_modules/@storybook/addon-vitest/dist/preset.js:1554:176)
+    at async buildDevStandalone (file:///D:/Mizan/Semester5/aixel/aixel-front-end/node_modules/storybook/dist/core-server/index.js:9539:72)
+    at async withTelemetry (file:///D:/Mizan/Semester5/aixel/aixel-front-end/node_modules/storybook/dist/_node-chunks/chunk-AZLAKLIP.js:142:12)
+    at async dev (file:///D:/Mizan/Semester5/aixel/aixel-front-end/node_modules/storybook/dist/bin/core.js:4877:3)
+    at async _Command.<anonymous> (file:///D:/Mizan/Semester5/aixel/aixel-front-end/node_modules/storybook/dist/bin/core.js:4985:3)
+[15:04:25.279] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
