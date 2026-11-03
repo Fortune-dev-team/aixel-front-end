@@ -1,0 +1,24 @@
+// molecules/StepIndicator.tsx
+import { StepSegment } from "./StepSegment";
+
+export interface StepIndicatorProps {
+    /** Total number of steps */
+    total: number;
+    /** Current step (1-based). Segments up to and including it are filled. */
+    current: number;
+    className?: string;
+}
+
+export const StepIndicator = ({ total, current, className = "" }: StepIndicatorProps) => (
+    <div
+        role="progressbar"
+        aria-valuemin={1}
+        aria-valuemax={total}
+        aria-valuenow={current}
+        className={`flex w-full items-center gap-3 ${className}`}
+    >
+        {Array.from({ length: total }, (_, i) => (
+            <StepSegment key={i} filled={i < current} />
+        ))}
+    </div>
+);
