@@ -1,82 +1,47 @@
-import Image from "next/image";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-const features = [
+const steps = [
   {
-    no: "01",
-    title: "Pretest kompetensi",
-    desc: "Petakan kemampuan awal tiap anggota tim lewat pretest singkat.",
+    step: "01",
+    title: "Tes Awal dan Goal dari tim",
+    description:
+      "Penilaian diri dan kasus singkat membantu memilih goal. Semua tetap mulai dari Level 1.",
   },
   {
-    no: "02",
-    title: "Penetapan mentor",
-    desc: "Admin menunjuk mentor dari hasil pretest. Anggota konfirmasi bersedia, lalu sesi dimulai.",
+    step: "02",
+    title: "Belajar mandiri dibantu AI",
+    description:
+      "Level 1 dan 2 memakai bahan dari basis pengetahuan yang disiapkan admin, bukan dari internet.",
   },
   {
-    no: "03",
-    title: "Jalur belajar",
-    desc: "Atribut yang perlu dikembangkan terhubung ke materi, tes, dan target belajar.",
+    step: "03",
+    title: "Sertifikat dan penyegaran",
+    description:
+      "Level 3 diuji mentor lewat wawancara offline dengan rubrik yang sama untuk semua.",
   },
   {
-    no: "04",
-    title: "Mentoring",
-    desc: "Cari mentor dari tim sendiri, ajukan permintaan, lalu jadwalkan sesi bersama.",
+    step: "04",
+    title: "Sertifikat dan penyegaran",
+    description:
+      "Atribut berlaku 12 sampai 18 bulan. Perpanjang dengan bukti kontribusi proyek nyata.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-5xl px-6 py-16">
-      {/* Hero */}
-      <section className="grid items-center gap-10 md:grid-cols-2">
-        <div>
-          <h1 className="text-4xl leading-tight md:text-5xl font-secondary">
-            Pemetaan kompetensi dan mentoring untuk tim startup
-          </h1>
-          <p className="mt-5 max-w-md text-muted-foreground">
-            Aixel memetakan kemampuan awal tiap anggota, lalu menghubungkan
-            mereka dengan materi belajar dan mentor dari tim sendiri.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-4">
-            <Link href="/pretest" className={buttonVariants()}>
-              Mulai pretest
-            </Link>
-
-            <Link href="#cara-kerja" className={buttonVariants({ variant: "secondary" })}>
-              Lihat cara kerja
-            </Link>
-          </div>
-        </div>
-
-        <div className="flex justify-center">
-          <Image src="/mascot.svg" alt="Maskot Aixel" width={280} height={280} priority />
-        </div>
-      </section>
-
-      {/* Fitur */}
-      <section id="cara-kerja" className="mt-24">
-        <h2 className="text-2xl">Yang bisa dilakukan Aixel</h2>
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f) => (
-            <Card key={f.no}>
-              <CardHeader>
-                <span className="font-mono text-3xl font-bold text-primary">{f.no}</span>
-                <CardTitle className="font-mono text-base">{f.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                {f.desc}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-    </main>
+    <div className="bg-[#f8f8f6] min-h-screen p-8 flex items-center justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl w-full">
+        {steps.map((item) => (
+          <Card
+            key={item.step}
+            step={item.step}
+            title={item.title}
+            description={item.description}
+          />
+        ))}
+      </div>
+      <Button variant="coral" leftIcon="←" rightIcon="→">Button</Button>
+    </div>
   );
 }
