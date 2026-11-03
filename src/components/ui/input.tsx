@@ -3,8 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const inputVariants = cva(
-    // Base
-    "inline-flex w-full items-center gap-[10px] rounded-md border-2 bg-[#FDFDFC] font-mono text-foreground transition-all " +
+    "inline-flex w-full items-center gap-[10px] rounded-md border-2 bg-[#FDFDFC] font-mono text-foreground cursor-text transition-all " +
     // Hover
     "[&:not(:focus-within)]:hover:shadow-hard-sm " +
     // Focus
@@ -51,32 +50,47 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             leftIcon,
             rightIcon,
             disabled,
+            onClick,
             ...props
         },
-        ref
+        forwardedRef
     ) => {
+        const innerRef = React.useRef<HTMLInputElement | null>(null)
+
+        // Gabungkan forwardedRef dan innerRef
+        React.useImperativeHandle(forwardedRef, () => innerRef.current as HTMLInputElement)
+
+        const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+            onClick?.(e as unknown as React.MouseEvent<HTMLInputElement>)
+            // Fokus ke native input jika user mengklik padding atau container
+            if (innerRef.current && e.target !== innerRef.current) {
+                innerRef.current.focus()
+            }
+        }
+
         return (
             <div
                 data-slot="input-container"
+                onClick={handleContainerClick}
                 className={cn(inputVariants({ variant, size }), containerClassName)}
             >
                 {leftIcon && (
-                    <span className="shrink-0 text-muted-foreground select-none">
+                    <span className="shrink-0 text-muted-foreground select-none pointer-events-none">
                         {leftIcon}
                     </span>
                 )}
                 <input
-                    ref={ref}
+                    ref={innerRef}
                     disabled={disabled}
                     data-slot="input"
                     className={cn(
-                        "w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed",
+                        "w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed selection:bg-primary/20",
                         className
                     )}
                     {...props}
                 />
                 {rightIcon && (
-                    <span className="shrink-0 text-muted-foreground select-none">
+                    <span className="shrink-0 text-muted-foreground select-none pointer-events-none">
                         {rightIcon}
                     </span>
                 )}

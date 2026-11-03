@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { Input } from "./input"
+import React from "react"
 
 const LeftIcon = () => <span className="text-xs">←</span>
 const RightIcon = () => <span className="text-xs">→</span>
@@ -86,5 +87,25 @@ export const Disabled: Story = {
         size: "md",
         leftIcon: <LeftIcon />,
         rightIcon: <RightIcon />,
+    },
+}
+
+export const Interactive: Story = {
+    render: function InteractiveInput() {
+        const [val, setVal] = React.useState("")
+        return (
+            <div className="w-[300px] space-y-3 font-mono">
+                <Input
+                    placeholder="Ketik di sini..."
+                    value={val}
+                    onChange={(e) => setVal(e.target.value)}
+                    leftIcon={<LeftIcon />}
+                    rightIcon={<RightIcon />}
+                />
+                <div className="rounded border-2 border-black bg-neutral-100 p-2 text-xs">
+                    <strong>e.target.value:</strong> {val || "(kosong)"}
+                </div>
+            </div>
+        )
     },
 }
