@@ -13,19 +13,10 @@ import { SessionItem } from "@/components/ui/SessionItem";
 import { MenuItem } from "@/components/ui/MenuItem";
 import { Toast } from "@/components/ui/Toast";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { TableHeader } from "@/components/ui/TableHeader";
-import { TableRow } from "@/components/ui/TableRow";
 
-import { DataTable, DataTableItem } from "@/components/ui/DataTable";
 import { MentorInviteBanner } from "@/components/ui/MentorInviteBanner";
 
 const chipVariants: ChipVariant[] = ["neutral", "amber", "coral", "red", "green", "blue"];
-
-const tableItems: DataTableItem[] = [
-    { id: 1, name: "Dimas Prakoso", attribute: "Komunikasi", status: "Aktif", statusVariant: "green" },
-    { id: 2, name: "Sari Wulandari", attribute: "Kepemimpinan", status: "Menunggu", statusVariant: "amber" },
-    { id: 3, name: "Budi Santoso", attribute: "Analitik", status: "Nonaktif", statusVariant: "red" },
-];
 
 const Section = ({ title, level, children }: { title: string; level: string; children: ReactNode }) => (
     <section className="flex flex-col gap-4">
@@ -183,29 +174,6 @@ export default function ComponentsTestPage() {
 
             <Section title="EmptyState" level="Molecule">
                 <EmptyState actionLabel="Button" onAction={() => pushToast("success", "Action clicked")} />
-            </Section>
-
-            <Section title="TableHeader + TableRow" level="Molecule">
-                <div className="overflow-hidden border-2 border-black">
-                    <TableHeader columns={["Nama", "Atribut", "Status", "Aksi"]} />
-                    <TableRow name="Dimas Prakoso" attribute="Komunikasi" status="Aktif" />
-                    <TableRow name="Dimas Prakoso" attribute="Komunikasi" status="Aktif" striped />
-                </div>
-            </Section>
-
-            {/* ORGANISMS */}
-            <Section title="DataTable" level="Organism">
-                <div className="flex flex-col gap-3">
-                    <Button variant="white" size="sm" className="self-start" onPress={() => setShowEmptyTable((v) => !v)}>
-                        {showEmptyTable ? "Show data" : "Show empty"}
-                    </Button>
-                    <DataTable
-                        items={showEmptyTable ? [] : tableItems}
-                        emptyActionLabel="Tambah data"
-                        onEmptyAction={() => setShowEmptyTable(false)}
-                        onRowAction={(item) => pushToast("success", `Detail: ${item.name}`)}
-                    />
-                </div>
             </Section>
 
             <Section title="MentorInviteBanner" level="Organism">

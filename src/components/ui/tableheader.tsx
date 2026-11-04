@@ -61,7 +61,7 @@ export function DataTable<T extends { id: Key }>({
                             {rows.map((row) => (
                                 <Table.Row
                                     key={row.id}
-                                    id={row.id}
+                                    // id={row.id}
                                     className="border-t-[1.5px] border-[#0A0A0A] bg-[#FDFCFA] font-mono text-[#0A0A0A] transition-colors first:border-t-0 hover:bg-[#FFDDD3]"
                                 >
                                     {columns.map((c) => (

@@ -1,8 +1,21 @@
-// molecules/TableHeader.tsx
-export interface TableHeaderProps {
-    columns: string[];
-    /** Tailwind grid template, must match TableRow. */
-    gridClassName?: string;
+"use client";
+
+import { Table } from "@heroui/react";
+import type { Key, ReactNode } from "react";
+
+export interface DataTableColumn<T> {
+    key: Extract<keyof T, string> | (string & {});
+    label: string;
+    width?: string;
+    align?: "left" | "center" | "right";
+    render?: (row: T) => ReactNode;
+}
+
+export interface DataTableProps<T extends { id: Key }> {
+    columns: DataTableColumn<T>[];
+    rows: T[];
+    ariaLabel: string;
+    emptyText?: string;
     className?: string;
 }
 
