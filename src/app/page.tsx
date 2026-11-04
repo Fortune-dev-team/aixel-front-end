@@ -31,7 +31,7 @@ const steps = [
 export default function Home() {
   return (
     <div className="bg-[#f8f8f6] min-h-screen p-8 flex items-center justify-center">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl w-full">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl w-full">
         {steps.map((item) => (
           <Card
             key={item.step}
@@ -40,8 +40,8 @@ export default function Home() {
             description={item.description}
           />
         ))}
-      </div>
-      <Button variant="coral" leftIcon="←" rightIcon="→">Button</Button>
+      </div> */}
+      <Button variant="coral" leftIcon="←" rightIcon="→" >Button</Button>
     </div>
   );
 }
