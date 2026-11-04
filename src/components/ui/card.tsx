@@ -3,15 +3,10 @@ import { ReactNode } from "react";
 import { Card as HeroUICard } from "@heroui/react";
 
 export interface CardProps {
-    /** Two-digit step counter (e.g., "01", "02") */
     step?: string;
-    /** Main title header */
     title: string;
-    /** Card body paragraph text */
     description?: string;
-    /** Optional custom React children */
     children?: ReactNode;
-    /** Extra Tailwind classes */
     className?: string;
 }
 
