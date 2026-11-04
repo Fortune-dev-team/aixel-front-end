@@ -2,9 +2,7 @@
 import { StepSegment } from "./StepSegment";
 
 export interface StepIndicatorProps {
-    /** Total number of steps */
     total: number;
-    /** Current step (1-based). Segments up to and including it are filled. */
     current: number;
     className?: string;
 }
