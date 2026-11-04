@@ -1,47 +1,82 @@
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+"use client";
 
-const steps = [
-  {
-    step: "01",
-    title: "Tes Awal dan Goal dari tim",
-    description:
-      "Penilaian diri dan kasus singkat membantu memilih goal. Semua tetap mulai dari Level 1.",
-  },
-  {
-    step: "02",
-    title: "Belajar mandiri dibantu AI",
-    description:
-      "Level 1 dan 2 memakai bahan dari basis pengetahuan yang disiapkan admin, bukan dari internet.",
-  },
-  {
-    step: "03",
-    title: "Sertifikat dan penyegaran",
-    description:
-      "Level 3 diuji mentor lewat wawancara offline dengan rubrik yang sama untuk semua.",
-  },
-  {
-    step: "04",
-    title: "Sertifikat dan penyegaran",
-    description:
-      "Atribut berlaku 12 sampai 18 bulan. Perpanjang dengan bukti kontribusi proyek nyata.",
-  },
+import { TextLabel } from "@/components/ui/textlabel";
+import { TextHelper } from "@/components/ui/texthelper";
+import { TextMessage } from "@/components/ui/textmesaage";
+import { TextLink } from "@/components/ui/textlink";
+import { ProgressBar } from "@/components/ui/progressbar";
+import { AnswerOptionGroup } from "@/components/ui/answeroption";
+import { ChoiceGroup } from "@/components/ui/choice";
+import { useState } from "react";
+import { FormField } from "@/components/ui/formfield";
+import { StepBadge } from "@/components/ui/stepbadge";
+import { NotifCount } from "@/components/ui/notifcount";
+import { DataTable, type DataTableColumn } from "@/components/ui/tableheader";
+
+
+interface Member { id: number; nama: string; atribut: string; status: string }
+
+const members: Member[] = [
+  { id: 1, nama: "Andi", atribut: "Admin", status: "Aktif" },
+  { id: 2, nama: "Budi", atribut: "Editor", status: "Nonaktif" },
+];
+
+const columns: DataTableColumn<Member>[] = [
+  { key: "nama", label: "Nama" },
+  { key: "atribut", label: "Atribut" },
+  { key: "status", label: "Status" },
+  { key: "aksi", label: "Aksi", render: () => <button>Edit</button> },
 ];
 
 export default function Home() {
+  const [answer, setAnswer] = useState("b");
+  const [choice, setChoice] = useState("3");
   return (
-    <div className="bg-[#f8f8f6] min-h-screen p-8 flex items-center justify-center">
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl w-full">
-        {steps.map((item) => (
-          <Card
-            key={item.step}
-            step={item.step}
-            title={item.title}
-            description={item.description}
-          />
-        ))}
-      </div> */}
-      <Button variant="coral" leftIcon="←" rightIcon="→" >Button</Button>
-    </div>
+    <main className="mx-auto flex max-w-md flex-col gap-8 bg-[#d4d4d4] p-8">
+      <section className="flex flex-col gap-1">
+        <TextLabel optional>Email</TextLabel>
+        <TextHelper>Gunakan email kerja Anda</TextHelper>
+      </section>
+
+      <section className="flex flex-col gap-1">
+        <TextMessage variant="error">Text message</TextMessage>
+        <TextMessage variant="success">Text message</TextMessage>
+        <TextMessage variant="warning" size="sm" soft>Text message</TextMessage>
+        <TextMessage variant="info">Text message</TextMessage>
+      </section>
+
+      <section className="flex flex-col gap-1">
+        <TextLink href="#">Text link</TextLink>
+        <TextLink href="#" variant="brand" icon="external">Text link</TextLink>
+        <TextLink href="#" variant="muted" icon="none">Text link</TextLink>
+      </section>
+
+
+      <section className="flex flex-col gap-2">
+        {[0, 25, 50, 75, 100].map((v) => <ProgressBar key={v} value={v} />)}
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <FormField label="Email" type="email" isRequired placeholder="nama@contoh.com" helperText="Gunakan email kerja Anda" />
+        <FormField label="Email" type="email" isRequired placeholder="nama@contoh.com" errorMessage="Email tidak valid" />
+      </section>
+
+      <AnswerOptionGroup
+        groupLabel="Pertanyaan"
+        value={answer}
+        onChange={setAnswer}
+        options={[
+          { value: "a", label: "Answer of question" },
+          { value: "b", label: "Answer of question" },
+        ]}
+      />
+
+      <ChoiceGroup groupLabel="Skala" count={3} value={choice} onChange={setChoice} />
+
+      <StepBadge step={1} />
+      <NotifCount count={2} />
+      <NotifCount variant="dot" />
+      <DataTable ariaLabel="Daftar anggota" columns={columns} rows={members} />
+    </main>
   );
 }
