@@ -99,12 +99,12 @@ export const FigmaArtboard: Story = {
                         type="text"
                         defaultValue="0"
                         readOnly
-                        className="w-12 h-16 shrink-0 p-0 text-center font-mono font-bold text-2xl leading-none border-2 border-border bg-[#FDFDFC] text-foreground rounded-lg shadow-hard-primary focus:outline-none"
+                        className="w-12 h-16 shrink-0 p-0 text-center font-mono font-bold text-2xl leading-none border-2 border-[#111111] bg-[#FDFDFC] text-foreground rounded-lg shadow-[3px_3px_0px_#FF5722] focus:outline-none"
                     />
                     {Array.from({ length: 5 }).map((_, i) => (
                         <div
                             key={i}
-                            className="w-12 h-16 shrink-0 border-2 border-border bg-[#FDFDFC] rounded-lg"
+                            className="w-12 h-16 shrink-0 border-2 border-[#111111] bg-[#FDFDFC] rounded-lg"
                         />
                     ))}
                 </div>

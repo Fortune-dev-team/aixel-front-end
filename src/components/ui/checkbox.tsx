@@ -6,15 +6,15 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const checkboxVariants = cva(
-  "peer inline-flex size-5 shrink-0 items-center justify-center rounded-[6px] border-2 border-border bg-[#FDFDFC] " +
+  "peer inline-flex size-5 shrink-0 items-center justify-center rounded-[6px] border-2 border-[#111111] bg-[#FDFDFC] " +
     "transition-[box-shadow,border-color,background-color] duration-150 select-none cursor-pointer outline-none " +
-    "hover:shadow-hard-primary " +
+    "hover:shadow-[2px_2px_0px_#FF5722] " +
     "disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:border-neutral-400 disabled:shadow-none disabled:hover:shadow-none",
   {
     variants: {
       variant: {
-        default: "border-border",
-        error: "border-destructive hover:shadow-hard-destructive",
+        default: "border-[#111111]",
+        error: "border-destructive hover:shadow-[2px_2px_0px_#ef4444]",
       },
     },
     defaultVariants: {
@@ -88,10 +88,10 @@ const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(
         {...props}
       >
         {isChecked === true && (
-          <Check className="size-3.5 stroke-[3] text-primary" />
+          <Check className="size-3.5 stroke-[3] text-[#FF5722]" />
         )}
         {isChecked === "indeterminate" && (
-          <Minus className="size-3.5 stroke-[3] text-primary" />
+          <Minus className="size-3.5 stroke-[3] text-[#FF5722]" />
         )}
       </button>
     )

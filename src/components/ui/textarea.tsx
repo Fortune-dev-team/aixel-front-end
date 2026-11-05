@@ -4,25 +4,25 @@ import { cn } from "@/lib/utils"
 
 const textareaVariants = cva(
     // Base styling
-    "block w-full box-border rounded-md border-2 border-border bg-[#FDFDFC] font-sans text-foreground leading-normal " +
+    "block w-full box-border rounded-md border-2 border-[#111111] bg-[#FDFDFC] font-sans text-foreground leading-normal " +
     // Transisi halus
     "transition-[box-shadow,border-color,background-color,color] duration-150 " +
     // Hover
     "[&:not(:focus-within)]:hover:shadow-hard-sm " +
     // Focus state
-    "focus:shadow-hard-primary focus:outline-none " +
+    "focus:shadow-[3px_3px_0px_#FF5722] focus:outline-none " +
     // Placeholder & Selection
-    "placeholder:text-muted-foreground selection:bg-primary/20 " +
+    "placeholder:text-muted-foreground selection:bg-[#FF5722]/20 " +
     // Disabled 
     "disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:border-neutral-400 disabled:text-neutral-500 disabled:placeholder:text-neutral-400 disabled:shadow-none disabled:hover:shadow-none",
     {
         variants: {
             variant: {
-                default: "border-border text-foreground",
+                default: "border-[#111111] text-foreground",
                 error:
-                    "border-destructive text-destructive focus:shadow-hard-destructive placeholder:text-destructive/60",
+                    "border-destructive text-destructive focus:shadow-[3px_3px_0px_#ef4444] placeholder:text-destructive/60",
                 success:
-                    "border-success text-success focus:shadow-hard-success placeholder:text-success/60",
+                    "border-[#10b981] text-[#10b981] focus:shadow-[3px_3px_0px_#10b981] placeholder:text-[#10b981]/60",
             },
             size: {
                 sm: "min-h-[80px] px-3 py-2 text-xs",

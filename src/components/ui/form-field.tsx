@@ -52,9 +52,9 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
                 )}
                 <div className="relative">
                     {React.isValidElement(children)
-                        ? React.cloneElement(children as React.ReactElement<any>, {
-                            id: (children.props as any).id ?? fieldId,
-                            variant: error ? "error" : (children.props as any).variant,
+                        ? React.cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+                            id: (children.props as Record<string, unknown>).id ?? fieldId,
+                            variant: error ? "error" : (children.props as Record<string, unknown>).variant,
                             "aria-describedby": error
                                 ? errorId
                                 : description

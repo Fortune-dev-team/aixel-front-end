@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils"
 
 const inputUploadVariants = cva(
     // Base button: border 2px solid, background terang, font monospace tebal
-    "inline-flex items-center justify-center rounded-md border-2 border-border bg-[#FDFDFC] font-mono font-bold text-foreground transition-[box-shadow,border-color,background-color,color] duration-150 cursor-pointer select-none outline-none " +
+    "inline-flex items-center justify-center rounded-md border-2 border-[#111111] bg-[#FDFDFC] font-mono font-bold text-foreground transition-[box-shadow,border-color,background-color,color] duration-150 cursor-pointer select-none outline-none " +
     // Hover state: hard shadow hitam (hanya saat tidak sedang fokus)
     "[&:not(:focus)]:hover:shadow-hard-sm " +
     // Focus state: hard shadow oranye khas neo-brutalist
-    "focus:shadow-hard-primary " +
+    "focus:shadow-[3px_3px_0px_#FF5722] " +
     // Disabled state
     "disabled:cursor-not-allowed disabled:bg-neutral-300 disabled:border-neutral-400 disabled:text-neutral-500 disabled:shadow-none disabled:hover:shadow-none",
     {

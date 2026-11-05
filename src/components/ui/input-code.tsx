@@ -6,13 +6,13 @@ import { cn } from "@/lib/utils"
 
 const inputCodeVariants = cva(
     // Base
-    "shrink-0 p-0 box-border text-center font-mono font-bold leading-none border-2 border-border bg-[#FDFDFC] text-foreground " +
+    "shrink-0 p-0 box-border text-center font-mono font-bold leading-none border-2 border-[#111111] bg-[#FDFDFC] text-foreground " +
     // Transisi
     "transition-[box-shadow,border-color,background-color,color] duration-150 " +
     // Hover
     "hover:shadow-hard-sm " +
     // Focus
-    "focus:shadow-hard-primary focus:outline-none " +
+    "focus:shadow-[3px_3px_0px_#FF5722] focus:outline-none " +
     // Caret & selection
     "caret-transparent selection:bg-transparent " +
     // Disabled 
@@ -20,11 +20,11 @@ const inputCodeVariants = cva(
     {
         variants: {
             variant: {
-                default: "border-border text-foreground",
+                default: "border-[#111111] text-foreground",
                 error:
-                    "border-destructive text-destructive focus:shadow-hard-destructive",
+                    "border-destructive text-destructive focus:shadow-[3px_3px_0px_#ef4444]",
                 success:
-                    "border-success text-success focus:shadow-hard-success",
+                    "border-[#10b981] text-[#10b981] focus:shadow-[3px_3px_0px_#10b981]",
             },
             size: {
                 sm: "w-10 h-14 text-xl rounded-md",

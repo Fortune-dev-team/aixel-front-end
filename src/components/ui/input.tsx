@@ -7,17 +7,17 @@ const inputVariants = cva(
     // Hover
     "[&:not(:focus-within)]:hover:shadow-hard-sm " +
     // Focus
-    "focus-within:shadow-[3px_3px_0px_0px_var(--primary,#ff5722)] focus-within:outline-none " +
+    "focus-within:shadow-[3px_3px_0px_0px_#FF5722] focus-within:outline-none " +
     // Disabled
     "has-[:disabled]:cursor-not-allowed has-[:disabled]:bg-neutral-300 has-[:disabled]:border-neutral-400 has-[:disabled]:text-neutral-500 has-[:disabled]:shadow-none has-[:disabled]:hover:shadow-none",
     {
         variants: {
             variant: {
-                default: "border-border text-foreground",
+                default: "border-[#111111] text-foreground",
                 error:
-                    "border-destructive text-destructive focus-within:shadow-[3px_3px_0px_0px_var(--destructive,#ef4444)] [&_input]:placeholder:text-destructive/60",
+                    "border-destructive text-destructive focus-within:shadow-[3px_3px_0px_0px_#ef4444] [&_input]:placeholder:text-destructive/60",
                 success:
-                    "border-success text-success focus-within:shadow-[3px_3px_0px_0px_var(--success,#10b981)] [&_input]:placeholder:text-success/60",
+                    "border-[#10b981] text-[#10b981] focus-within:shadow-[3px_3px_0px_0px_#10b981] [&_input]:placeholder:text-[#10b981]/60",
             },
             size: {
                 sm: "h-8 px-2 py-2 text-xs [&_svg]:size-3.5",
@@ -84,7 +84,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     disabled={disabled}
                     data-slot="input"
                     className={cn(
-                        "w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed selection:bg-primary/20",
+                        "w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed selection:bg-[#FF5722]/20",
                         className
                     )}
                     {...props}

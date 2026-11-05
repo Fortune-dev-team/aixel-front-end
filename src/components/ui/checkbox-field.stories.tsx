@@ -32,7 +32,7 @@ export const HoverState: Story = {
     args: {
         label: "Setuju dengan syarat dan ketentuan.",
         defaultChecked: false,
-        className: "shadow-hard-primary",
+        className: "shadow-[2px_2px_0px_#FF5722]",
     },
 }
 
@@ -67,7 +67,7 @@ export const FigmaArtboard: Story = {
                 <CheckboxField
                     label="Setuju dengan syarat dan ketentuan."
                     checked={false}
-                    className="shadow-hard-primary"
+                    className="shadow-[2px_2px_0px_#FF5722]"
                 />
 
                 {/* Baris 3: Checked (centang oranye) */}

@@ -45,7 +45,7 @@ const ToggleField = React.forwardRef<HTMLButtonElement, ToggleFieldProps>(
                         ref={ref}
                         id={toggleId}
                         disabled={disabled}
-                        className={cn("group-hover:shadow-hard-primary", className)}
+                        className={cn("group-hover:shadow-[2px_2px_0px_#FF5722]", className)}
                         {...props}
                     />
                 </div>

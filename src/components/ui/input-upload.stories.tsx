@@ -38,7 +38,7 @@ export const Focused: Story = {
   args: {
     buttonText: "Pilih berkas",
     size: "md",
-    buttonClassName: "shadow-hard-primary",
+    buttonClassName: "shadow-[3px_3px_0px_#FF5722]",
   },
 }
 

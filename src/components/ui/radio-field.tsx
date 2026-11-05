@@ -12,7 +12,7 @@ interface RadioGroupContextValue {
     disabled?: boolean
 }
 
-const RadioGroupContext = React.createContext<RadioGroupContextValue | null>(null)
+export const RadioGroupContext = React.createContext<RadioGroupContextValue | null>(null)
 
 export interface RadioGroupProps extends React.HTMLAttributes<HTMLDivElement> {
     name?: string
@@ -119,7 +119,7 @@ export const RadioField = React.forwardRef<HTMLInputElement, RadioFieldProps>(
                         checked={isChecked}
                         disabled={isDisabled}
                         onChange={handleChange}
-                        containerClassName="group-hover:shadow-hard-primary"
+                        containerClassName="group-hover:shadow-[2px_2px_0px_#FF5722]"
                         {...props}
                     />
                 </div>

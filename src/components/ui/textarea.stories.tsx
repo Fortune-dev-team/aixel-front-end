@@ -94,7 +94,7 @@ export const FigmaArtboard: Story = {
             {/* 3. Focus representation (Orange shadow) */}
             <Textarea
                 placeholder="Tulis catatan Anda..."
-                className="shadow-hard-primary"
+                className="shadow-[3px_3px_0px_#FF5722]"
             />
 
             {/* 4. Filled */}

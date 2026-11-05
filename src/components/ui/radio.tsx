@@ -6,17 +6,17 @@ import { cn } from "@/lib/utils"
 
 const radioVariants = cva(
     // Base circle
-    "relative inline-flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-border bg-[#FDFDFC] " +
+    "relative inline-flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-[#111111] bg-[#FDFDFC] " +
     "transition-[box-shadow,border-color,background-color] duration-150 select-none cursor-pointer outline-none " +
     // Hover
-    "hover:shadow-hard-primary " +
+    "hover:shadow-[2px_2px_0px_#FF5722] " +
     // Disabled
     "has-[:disabled]:cursor-not-allowed has-[:disabled]:bg-neutral-300 has-[:disabled]:border-neutral-400 has-[:disabled]:shadow-none has-[:disabled]:hover:shadow-none",
     {
         variants: {
             variant: {
-                default: "border-border",
-                error: "border-destructive hover:shadow-hard-destructive",
+                default: "border-[#111111]",
+                error: "border-destructive hover:shadow-[2px_2px_0px_#ef4444]",
             },
         },
         defaultVariants: {
@@ -58,7 +58,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
                     {...props}
                 />
                 {/* Titik lingkaran oranye solid saat dipilih */}
-                <span className="size-2 rounded-full bg-primary scale-0 transition-transform duration-150 peer-checked:scale-100" />
+                <span className="size-2 rounded-full bg-[#FF5722] scale-0 transition-transform duration-150 peer-checked:scale-100" />
             </span>
         )
     }
