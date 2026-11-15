@@ -3,6 +3,7 @@ import { JetBrains_Mono, Open_Sans } from "next/font/google";
 import Navbar from "@/components/layout/user/main-navbar"; // Adjust import path
 import Footer from "@/components/layout/user/main-footer"; // Adjust import path
 import "./globals.css";
+import { MainLayoutWrapper } from "@/components/layout/main-layout-wrapper"
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
@@ -25,11 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className={`${jetbrains.variable} ${openSans.variable}`}>
       <body className="bg-background text-foreground antialiased min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <MainLayoutWrapper>{children}</MainLayoutWrapper>
       </body>
     </html>
   );
