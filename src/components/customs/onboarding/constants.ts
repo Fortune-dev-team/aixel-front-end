@@ -1,27 +1,6 @@
-export type CompetencyKey = "komunikasi" | "problemSolving" | "kepemimpinan";
+import type { AssessmentQuestion, CompetencyKey } from "./interfaces";
 
-export interface OnboardingProfile {
-    fullName: string;
-    role: string;
-    bio: string;
-}
-
-export interface SelfRatings {
-    komunikasi: number;
-    problemSolving: number;
-    kepemimpinan: number;
-}
-
-export interface AssessmentQuestion {
-    id: string;
-    aspect: CompetencyKey;
-    question: string;
-    options: {
-        id: string;
-        text: string;
-        score: number; // 1 - 5 scale equivalent
-    }[];
-}
+export const TOTAL_STEPS = 4;
 
 export const ROLE_OPTIONS = [
     "Frontend Developer",
