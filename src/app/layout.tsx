@@ -1,16 +1,32 @@
-import Navbar from "@/components/layout/user/main-navbar";
-import Footer from "@/components/layout/user/main-footer";
+import type { Metadata } from "next";
+import { JetBrains_Mono, Open_Sans } from "next/font/google";
+import "./globals.css";
 
-export default function UserLayout({
+const jetbrains = JetBrains_Mono({
+    subsets: ["latin"],
+    variable: "--font-jetbrains-mono",
+    display: "swap",
+});
+
+const openSans = Open_Sans({
+    subsets: ["latin"],
+    variable: "--font-open-sans",
+    display: "swap",
+});
+
+export const metadata: Metadata = {
+    title: "Aixel",
+    description: "Pemetaan kompetensi dan mentoring untuk tim startup",
+};
+
+export default function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
     return (
-        <>
-            <Navbar />
-            {children}
-            <Footer />
-        </>
+        <html lang="id" className={`${jetbrains.variable} ${openSans.variable}`}>
+            <body>{children}</body>
+        </html>
     );
 }
