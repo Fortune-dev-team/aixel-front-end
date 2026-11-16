@@ -6,23 +6,19 @@ import React from 'react'
 const steps = [
     {
         step: "01",
-        title: "Parse Script",
-        description: "Extract PKGBUILD instructions and environment variable references."
+        title: "Belajar mandiri, dibantu AI",
     },
     {
         step: "02",
-        title: "Local LLM Inspection",
-        description: "Pass extracted code through local model evaluation for suspicious commands."
+        title: "Diwawancara rekan yang mahir",
     },
     {
         step: "03",
-        title: "Actionable Result",
-        description: "Review detected indicators before approving build execution."
+        title: "Lulus dan dapat sertifikat",
     },
     {
         step: "04",
-        title: "Actionable Result",
-        description: "Review detected indicators before approving build execution."
+        title: "Ganti menguji anggota lain",
     }
 ];
 
@@ -34,10 +30,10 @@ export default function FlowSection() {
                 <div className="grid grid-cols-4 gap-4">
                     {steps.map((item) => (
                         <Card
+                            key={item.step}
                             step={item.step}
                             useBadge
                             title={item.title}
-                            description={item.description}
                         />
                     ))}
                 </div>

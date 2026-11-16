@@ -4,23 +4,23 @@ import React from 'react'
 const steps = [
     {
         step: "01",
-        title: "Parse Script",
-        description: "Extract PKGBUILD instructions and environment variable references."
+        title: "Tes Awal dan Goal dari tim",
+        description: "Penilaian diri dan kasus singkat membantu memilih goal. Semua tetap mulai dari Level 1."
     },
     {
         step: "02",
-        title: "Local LLM Inspection",
-        description: "Pass extracted code through local model evaluation for suspicious commands."
+        title: "Belajar mandiri dibantu AI",
+        description: "Level 1 dan 2 memakai bahan dari basis pengetahuan yang disiapkan admin, bukan dari internet."
     },
     {
         step: "03",
-        title: "Actionable Result",
-        description: "Review detected indicators before approving build execution."
+        title: "Sertifikat dan penyegaran",
+        description: "Level 3 diuji mentor lewat wawancara offline dengan rubrik yang sama untuk semua."
     },
     {
         step: "04",
-        title: "Actionable Result",
-        description: "Review detected indicators before approving build execution."
+        title: "Sertifikat dan penyegaran",
+        description: "Atribut berlaku 12 sampai 18 bulan. Perpanjang dengan bukti kontribusi proyek nyata."
     }
 ];
 
