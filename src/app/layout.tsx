@@ -24,7 +24,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${jetbrains.variable} ${openSans.variable}`}>
+    <html
+      lang="id"
+      suppressHydrationWarning
+      className={`${jetbrains.variable} ${openSans.variable}`}
+    >
       <body className="bg-background text-foreground antialiased min-h-screen flex flex-col">
         <MainLayoutWrapper>{children}</MainLayoutWrapper>
       </body>
