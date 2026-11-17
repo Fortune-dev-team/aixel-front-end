@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { DataTable, type DataTableColumn } from "@/components/ui/tableheader"
+import { DataTable, type DataTableColumn } from "@/components/ui/data-table"
 import { Button } from "@/components/ui/button"
 import { Chip } from "@/components/ui/Chip"
 import { cn } from "@/lib/utils"
