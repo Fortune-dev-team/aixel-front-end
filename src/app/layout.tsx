@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Open_Sans } from "next/font/google";
-import Navbar from "@/components/layout/user/main-navbar"; // Adjust import path
-import Footer from "@/components/layout/user/main-footer"; // Adjust import path
 import "./globals.css";
 import { MainLayoutWrapper } from "@/components/layout/main-layout-wrapper"
 
@@ -22,16 +20,14 @@ export const metadata: Metadata = {
   description: "Pemetaan kompetensi dan mentoring untuk tim startup",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html
-      lang="id"
-      suppressHydrationWarning
-      className={`${jetbrains.variable} ${openSans.variable}`}
-    >
-      <body className="bg-background text-foreground antialiased min-h-screen flex flex-col">
-        <MainLayoutWrapper>{children}</MainLayoutWrapper>
-      </body>
+    <html lang="id" className={`${jetbrains.variable} ${openSans.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
