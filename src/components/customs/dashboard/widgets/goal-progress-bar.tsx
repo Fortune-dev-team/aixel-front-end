@@ -21,7 +21,7 @@ export function GoalProgressBar({
             maxValue={100}
             className="w-24"
         >
-            <ProgressBar.Track className="h-2.5 overflow-hidden rounded-[3px] border border-[#0A0A0A] bg-[#FDFCFA]">
+            <ProgressBar.Track className="h-2.5 overflow-hidden border border-[#0A0A0A] bg-[#FDFCFA]">
                 <ProgressBar.Fill className="h-full bg-[#FF5722] transition-all duration-300" />
             </ProgressBar.Track>
         </ProgressBar>
