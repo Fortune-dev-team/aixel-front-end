@@ -30,7 +30,8 @@ export function TeamSidebar({ onLogout }: TeamSidebarProps) {
 
     const handleConfirmLogout = () => {
         setIsLogoutOpen(false);
-        router.push("/    ");
+        onLogout?.();
+        router.push("/");
     };
 
     return (
@@ -101,15 +102,13 @@ export function TeamSidebar({ onLogout }: TeamSidebarProps) {
                         </SidebarGroupContent>
                     </SidebarGroup>
                 </SidebarContent>
-
                 <SidebarFooter className="bg-[#FDFCFA] px-4 pt-2 pb-6">
                     <Separator className="mb-3 bg-[#0A0A0A]/30" />
                     <Button
                         variant="ghost"
                         size="sm"
-                        onPress={onLogout}
+                        onPress={() => setIsLogoutOpen(true)}
                         className="h-auto w-full cursor-pointer justify-start rounded-lg px-3 py-2 font-sans text-xs font-medium text-[#262626] transition-colors hover:bg-[#EFEFEB]"
-                        onClick={() => setIsLogoutOpen(true)}
                     >
                         Keluar
                     </Button>
