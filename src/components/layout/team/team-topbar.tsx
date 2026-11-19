@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@heroui/react"
+import Link from "next/link"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { NotifCount } from "@/components/ui/notifcount"
 import type { TeamTopbarProps } from "./interfaces"
@@ -19,15 +19,14 @@ export function TeamTopbar({
                 </span>
             </div>
 
-            <Button
-                size="sm"
-                variant="secondary"
-                onPress={onNotificationClick}
-                className="inline-flex h-auto cursor-pointer items-center gap-2 rounded-lg border-2 border-[#0A0A0A] bg-[#FDFCFA] px-3 py-1 font-mono text-xs font-bold text-[#0A0A0A] shadow-[2px_2px_0px_#0A0A0A] transition-transform hover:-translate-x-px hover:-translate-y-px active:translate-x-px active:translate-y-px active:shadow-none"
+            <Link
+                href="/team/notifikasi"
+                onClick={onNotificationClick}
+                className="inline-flex h-auto cursor-pointer items-center gap-2 rounded-lg border-2 border-[#0A0A0A] bg-[#FDFCFA] px-3 py-1 font-mono text-xs font-bold text-[#0A0A0A] shadow-[2px_2px_0px_#0A0A0A] transition-transform hover:-translate-x-px hover:-translate-y-px hover:bg-[#EFEFEB] active:translate-x-px active:translate-y-px active:shadow-none"
             >
                 {notificationCount > 0 && <NotifCount count={notificationCount} />}
                 <span>Notifikasi</span>
-            </Button>
+            </Link>
         </header>
     )
 }
