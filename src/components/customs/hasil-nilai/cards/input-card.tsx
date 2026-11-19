@@ -38,7 +38,7 @@ export function InputHasilFormCard({
     }))
 
     return (
-        <Card className="w-full max-w-md rounded-xl border-2 border-[#0A0A0A] bg-[#FDFCFA] p-6 text-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A]">
+        <Card className="w-full rounded-xl border-2 border-[#0A0A0A] bg-[#FDFCFA] p-6 text-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A]">
             <Card.Content className="flex flex-col gap-4 p-0">
                 <HeroSelectField
                     label="Kandidat"
