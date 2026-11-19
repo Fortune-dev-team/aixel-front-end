@@ -5,7 +5,7 @@ import { AlertTriangle, Check, X } from "lucide-react"
 
 export function InputToast() {
     return (
-        <Toast.Provider placement="bottom end" maxVisibleToasts={3} width=auto>
+        <Toast.Provider placement="bottom end" maxVisibleToasts={3} width={300}>
             {({ toast: item }) => {
                 const isDanger = item.content.variant === "danger"
 
