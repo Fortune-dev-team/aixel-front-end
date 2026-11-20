@@ -1,46 +1,86 @@
 "use client"
 
-import { TolakPermintaanModal } from "./modals/reject-modal"
-import { PermintaanTable } from "./tables/table"
+import { EmptyPermintaanCard } from "./cards/empty-card"
+import { PermintaanCard } from "./cards/permintaan-card"
+import type { PermintaanContentProps } from "./interfaces"
+import { TolakPermintaanModal } from "./modals/tolak-modal"
+import { UsulkanJadwalModal } from "./modals/usulkan-modal"
 import { usePermintaan } from "./use-permintaan"
 import { PermintaanHeader } from "./widgets/header"
-import { PermintaanToast } from "./widgets/toast"
 
-export function PermintaanContent() {
+export function PermintaanContent({
+    initialItems,
+    availableSlots,
+    isLoading = false,
+    onApprove,
+    onReject,
+    onProposeSchedule,
+}: PermintaanContentProps) {
     const {
-        demoState,
-        setDemoState,
-        rows,
+        items,
+        availableSlots: slots,
+        viewState,
+        setViewState,
+        isProcessing,
         rejectTarget,
-        isSubmitting,
-        handleAccept,
-        openRejectModal,
-        closeRejectModal,
-        handleRejectSubmit,
-    } = usePermintaan()
+        setRejectTarget,
+        proposeTarget,
+        setProposeTarget,
+        handleApprove,
+        handleReject,
+        handleProposeSchedule,
+    } = usePermintaan({
+        initialItems,
+        availableSlots,
+        onApprove,
+        onReject,
+        onProposeSchedule,
+    })
 
     return (
         <div className="w-full">
             <PermintaanHeader
-                demoState={demoState}
-                onDemoStateChange={setDemoState}
+                viewState={viewState}
+                onViewStateChange={setViewState}
             />
 
-            <PermintaanTable
-                rows={rows}
-                onAccept={handleAccept}
-                onReject={openRejectModal}
-            />
+            {!isLoading && items.length === 0 ? (
+                <EmptyPermintaanCard />
+            ) : (
+                <div className="flex w-full flex-col gap-3.5">
+                    {items.map((item) => (
+                        <PermintaanCard
+                            key={item.id}
+                            data={item}
+                            isProcessing={isProcessing}
+                            onApprove={handleApprove}
+                            onOpenReject={setRejectTarget}
+                            onOpenPropose={setProposeTarget}
+                        />
+                    ))}
+                </div>
+            )}
 
             <TolakPermintaanModal
-                target={rejectTarget}
+                item={rejectTarget}
                 isOpen={Boolean(rejectTarget)}
-                isSubmitting={isSubmitting}
-                onClose={closeRejectModal}
-                onSubmit={handleRejectSubmit}
+                onOpenChange={(open) => {
+                    if (!open) setRejectTarget(null)
+                }}
+                onSubmit={handleReject}
+                isSubmitting={isProcessing}
             />
 
-            <PermintaanToast />
+            <UsulkanJadwalModal
+                item={proposeTarget}
+                slots={slots}
+                isOpen={Boolean(proposeTarget)}
+                onOpenChange={(open) => {
+                    if (!open) setProposeTarget(null)
+                }}
+                onSubmit={handleProposeSchedule}
+                isSubmitting={isProcessing}
+            />
         </div>
     )
 }

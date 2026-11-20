@@ -2,81 +2,133 @@
 
 import * as React from "react"
 import { toast } from "@heroui/react"
-import { PERMINTAAN_STATES } from "./constants"
+import { DEFAULT_JADWAL_SLOTS, MOCK_PERMINTAAN_ITEMS } from "./constants"
 import type {
-    PermintaanDemoState,
-    PermintaanRow,
-    PermintaanStatus,
+    JadwalSlotOption,
+    PermintaanItem,
+    PermintaanViewState,
 } from "./interfaces"
 
-export function usePermintaan() {
-    const [demoState, setDemoState] =
-        React.useState<PermintaanDemoState>("pending")
-    const [rows, setRows] = React.useState<PermintaanRow[]>(
-        PERMINTAAN_STATES.pending
+interface UsePermintaanOptions {
+    initialItems?: PermintaanItem[]
+    availableSlots?: JadwalSlotOption[]
+    onApprove?: (id: string) => Promise<void> | void
+    onReject?: (id: string, alasan: string) => Promise<void> | void
+    onProposeSchedule?: (id: string, slotId: string) => Promise<void> | void
+}
+
+export function usePermintaan({
+    initialItems = MOCK_PERMINTAAN_ITEMS,
+    availableSlots = DEFAULT_JADWAL_SLOTS,
+    onApprove,
+    onReject,
+    onProposeSchedule,
+}: UsePermintaanOptions = {}) {
+    const [items, setItems] = React.useState<PermintaanItem[]>(initialItems)
+    const [viewState, setViewState] = React.useState<PermintaanViewState>(
+        initialItems.length > 0 ? "active" : "empty"
     )
-    const [rejectTarget, setRejectTarget] = React.useState<PermintaanRow | null>(
-        null
-    )
-    const [isSubmitting, setIsSubmitting] = React.useState(false)
+    const [isProcessing, setIsProcessing] = React.useState(false)
 
-    const handleDemoStateChange = (nextState: PermintaanDemoState) => {
-        setDemoState(nextState)
-        setRows(PERMINTAAN_STATES[nextState])
-    }
+    const [rejectTarget, setRejectTarget] =
+        React.useState<PermintaanItem | null>(null)
+    const [proposeTarget, setProposeTarget] =
+        React.useState<PermintaanItem | null>(null)
 
-    const updateRowStatus = (id: string, status: PermintaanStatus) => {
-        setRows((prev) =>
-            prev.map((row) => (row.id === id ? { ...row, status } : row))
-        )
-    }
+    React.useEffect(() => {
+        setItems(initialItems)
+        setViewState(initialItems.length > 0 ? "active" : "empty")
+    }, [initialItems])
 
-    const handleAccept = async (id: string) => {
-        try {
-            setIsSubmitting(true)
-            // Replace with API call: await fetch(`/api/mentor/permintaan/${id}`, { method: "PATCH", ... })
-            updateRowStatus(id, "Diterima")
-            toast.success("Permintaan diterima.", { timeout: 4000 })
-        } catch {
-            toast.danger("Gagal memproses permintaan.", { timeout: 4000 })
-        } finally {
-            setIsSubmitting(false)
+    const handleViewStateChange = (nextState: PermintaanViewState) => {
+        setViewState(nextState)
+        if (nextState === "empty") {
+            setItems([])
+        } else {
+            setItems(initialItems.length > 0 ? initialItems : MOCK_PERMINTAAN_ITEMS)
         }
     }
 
-    const openRejectModal = (id: string) => {
-        const found = rows.find((row) => row.id === id) ?? null
-        setRejectTarget(found)
-    }
-
-    const closeRejectModal = () => {
-        if (!isSubmitting) setRejectTarget(null)
-    }
-
-    const handleRejectSubmit = async (id: string, reason: string) => {
+    const handleApprove = async (id: string) => {
         try {
-            setIsSubmitting(true)
-            // Replace with API call: await fetch(`/api/mentor/permintaan/${id}`, { method: "PATCH", body: JSON.stringify({ status: "Ditolak", reason }) })
-            void reason
-            updateRowStatus(id, "Ditolak")
-            setRejectTarget(null)
-            toast.success("Permintaan ditolak.", { timeout: 4000 })
+            setIsProcessing(true)
+            await onApprove?.(id)
+
+            setItems((prev) =>
+                prev.map((item) =>
+                    item.id === id ? { ...item, status: "Dijadwalkan" } : item
+                )
+            )
+            toast("Permintaan jadwal disetujui.", { variant: "success" })
         } catch {
-            toast.danger("Gagal memproses permintaan.", { timeout: 4000 })
+            toast("Gagal menyetujui permintaan.", { variant: "danger" })
         } finally {
-            setIsSubmitting(false)
+            setIsProcessing(false)
+        }
+    }
+
+    const handleReject = async (id: string, alasan: string): Promise<boolean> => {
+        try {
+            setIsProcessing(true)
+            await onReject?.(id, alasan)
+
+            setItems((prev) =>
+                prev.map((item) =>
+                    item.id === id ? { ...item, status: "Ditolak" } : item
+                )
+            )
+            toast("Permintaan jadwal ditolak.", { variant: "success" })
+            return true
+        } catch {
+            toast("Gagal menolak permintaan.", { variant: "danger" })
+            return false
+        } finally {
+            setIsProcessing(false)
+        }
+    }
+
+    const handleProposeSchedule = async (
+        id: string,
+        slotId: string
+    ): Promise<boolean> => {
+        try {
+            setIsProcessing(true)
+            await onProposeSchedule?.(id, slotId)
+
+            const chosenSlot = availableSlots.find((s) => s.id === slotId)
+            setItems((prev) =>
+                prev.map((item) =>
+                    item.id === id
+                        ? {
+                            ...item,
+                            jadwalDiajukan: chosenSlot?.label ?? item.jadwalDiajukan,
+                            status: "Menunggu respon",
+                        }
+                        : item
+                )
+            )
+            toast("Usulan jadwal lain berhasil dikirim.", { variant: "success" })
+            return true
+        } catch {
+            toast("Gagal mengusulkan jadwal lain.", { variant: "danger" })
+            return false
+        } finally {
+            setIsProcessing(false)
         }
     }
 
     return {
-        demoState,
-        setDemoState: handleDemoStateChange,
-        rows,
+        items,
+        availableSlots,
+        viewState,
+        setViewState: handleViewStateChange,
+        isProcessing,
         rejectTarget,
-        isSubmitting,
-        handleAccept,
-        openRejectModal,
-        closeRejectModal,
-        handleRejectSubmit,
+        setRejectTarget,
+        proposeTarget,
+        setProposeTarget,
+        handleApprove,
+        handleReject,
+        handleProposeSchedule,
     }
 }

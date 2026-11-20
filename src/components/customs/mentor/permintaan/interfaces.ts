@@ -1,9 +1,30 @@
-export type PermintaanStatus = "Menunggu" | "Diterima" | "Ditolak"
-export type PermintaanDemoState = "empty" | "pending" | "partial" | "resolved"
+export type PermintaanStatusType =
+    | "Menunggu"
+    | "Menunggu respon"
+    | "Dijadwalkan"
+    | "Ditolak"
 
-export interface PermintaanRow {
+export type PermintaanViewState = "active" | "empty"
+
+export interface JadwalSlotOption {
     id: string
-    kandidat: string
-    atribut: string
-    status: PermintaanStatus
+    label: string
+}
+
+export interface PermintaanItem {
+    id: string
+    peranAtribut: string
+    namaMentee: string
+    jadwalDiajukan: string
+    catatan?: string | null
+    status: PermintaanStatusType
+}
+
+export interface PermintaanContentProps {
+    initialItems?: PermintaanItem[]
+    availableSlots?: JadwalSlotOption[]
+    isLoading?: boolean
+    onApprove?: (id: string) => Promise<void> | void
+    onReject?: (id: string, alasan: string) => Promise<void> | void
+    onProposeSchedule?: (id: string, slotId: string) => Promise<void> | void
 }

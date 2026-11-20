@@ -1,24 +1,41 @@
-"use client";
-// molecules/Toast.tsx
+"use client"
 
-export type ToastType = "success" | "error";
+import * as React from "react"
+import { Toast } from "@heroui/react"
+import { AlertTriangle, Check, X } from "lucide-react"
 
-export interface ToastProps {
-    type?: ToastType;
-    message: string;
-    onClose?: () => void;
-    className?: string;
+type CustomToastProps = React.ComponentProps<typeof Toast>
+
+export function CustomToast({ toast, ...props }: CustomToastProps) {
+    const content = toast.content as {
+        title?: React.ReactNode
+        variant?: "default" | "accent" | "success" | "warning" | "danger"
+    }
+    const isDanger = content.variant === "danger"
+
+    return (
+        <Toast
+            toast={toast}
+            {...props}
+            className="flex ml-auto w-full max-w-sm items-center justify-between gap-4 rounded-lg border-[1.5px] border-[#0A0A0A] bg-[#0A0A0A] px-3.5 py-2.5 text-[#FDFCFA] shadow-[3px_3px_0px_#FF5722] outline-none"
+        >
+            <Toast.Content className="flex flex-none flex-row items-center gap-2.5">
+                {isDanger ? (
+                    <AlertTriangle className="size-4 shrink-0 text-[#EF4444]" />
+                ) : (
+                    <Check className="size-4 shrink-0 text-[#22C55E]" />
+                )}
+                <Toast.Title className="font-mono text-xs font-medium text-[#FDFCFA]">
+                    {content.title}
+                </Toast.Title>
+            </Toast.Content>
+
+            <Toast.CloseButton
+                aria-label="Tutup notifikasi"
+                className="cursor-pointer rounded bg-[#0A0A0A] border-[#FF5722] p-0.5 text-[#FF5722]/80 transition-colors hover:text-[#FF5722]"
+            >
+                <X className="size-3.5" />
+            </Toast.CloseButton>
+        </Toast>
+    )
 }
-
-export const Toast = ({ type = "success", message, onClose, className = "" }: ToastProps) => (
-    <div
-        role={type === "error" ? "alert" : "status"}
-        className={`flex items-center gap-3 rounded-xl border-2 border-black bg-[#0d0d0d] px-4 py-3 text-white shadow-[4px_4px_0px_0px_#ff4d2d] ${className}`}
-    >
-        {type === "success" ? "V" : "X"}
-        <p className="flex-1 text-sm">{message}</p>
-        <button type="button" aria-label="Tutup" onClick={onClose} className="shrink-0 hover:opacity-70">
-            X
-        </button>
-    </div>
-);
