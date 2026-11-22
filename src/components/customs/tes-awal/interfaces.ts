@@ -5,10 +5,7 @@ export interface TesAwalResultRow {
     atribut: string
     penilaianDiri: string
     statusKasus: KasusStatus
-}
-
-export interface StatusChipProps {
-    status: KasusStatus
+    isMatch?: boolean
 }
 
 export interface TesAwalTableProps {

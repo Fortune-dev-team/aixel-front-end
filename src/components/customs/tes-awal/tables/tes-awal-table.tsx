@@ -1,7 +1,7 @@
 "use client"
 
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table"
-import { StatusChip } from "../widgets/status-chip"
+import { Chip } from "@/components/ui/Chip"
 import type { TesAwalResultRow, TesAwalTableProps } from "../interfaces"
 
 export function TesAwalTable({ rows }: TesAwalTableProps) {
@@ -30,7 +30,14 @@ export function TesAwalTable({ rows }: TesAwalTableProps) {
             key: "statusKasus",
             label: "Kasus singkat",
             width: "30%",
-            render: (row) => <StatusChip status={row.statusKasus} />,
+            render: (row) => {
+                const isMatch = row.isMatch ?? row.statusKasus === "Sesuai"
+                return (
+                    <Chip variant={isMatch ? "green" : "amber"}>
+                        {row.statusKasus}
+                    </Chip>
+                )
+            },
         },
     ]
 
