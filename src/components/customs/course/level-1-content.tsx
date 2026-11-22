@@ -144,7 +144,6 @@ export function Level1Content() {
                       key={opt.id}
                       value={opt.id}
                       label={opt.label}
-                      className="shadow-[3px_3px_0_0_#0A0A0A]"
                     />
                   ))}
                 </RadioGroup>
