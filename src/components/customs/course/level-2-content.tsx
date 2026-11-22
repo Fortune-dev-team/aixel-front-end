@@ -64,7 +64,7 @@ export function Level2Content() {
 
     const headerTitle =
         step === "materi"
-            ? `Level 2: Studi kasus · ${selectedGoal.title} · Materi`
+            ? `Level 2: Konseptual · ${selectedGoal.title} · Materi`
             : `Level 2: Studi kasus · ${selectedGoal.title} · Latihan`;
 
     const headerSubtitle =

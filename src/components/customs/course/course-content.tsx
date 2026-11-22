@@ -172,7 +172,11 @@ export function CourseContent() {
                                                 size="sm"
                                                 onPress={() => router.push(item.href)}
                                             >
-                                                {status === "in_progress" ? "Lanjutkan" : "Mulai"}
+                                                {item.level === 3
+                                                    ? "Pilih jadwal"
+                                                    : status === "in_progress"
+                                                        ? "Lanjutkan"
+                                                        : "Mulai"}
                                             </Button>
                                         )}
                                     </div>
