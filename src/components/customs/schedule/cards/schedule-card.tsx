@@ -1,31 +1,31 @@
-import { cn } from "@/lib/utils";
+import { Chip, type ChipVariant } from "@/components/ui/Chip";
 import type { ScheduleItem, ScheduleStatus } from "../interfaces";
 
 interface ScheduleCardProps {
     item: ScheduleItem;
 }
 
-function getStatusBadge(status: ScheduleStatus) {
+function getStatusBadge(status: ScheduleStatus): { label: string; variant: ChipVariant } {
     switch (status) {
         case "scheduled":
             return {
                 label: "Dijadwalkan",
-                className: "border-[#3B82F6] bg-[#DBEAFE] text-[#1D4ED8]",
+                variant: "blue",
             };
         case "waiting":
             return {
                 label: "Menunggu",
-                className: "border-[#D97706] bg-[#FEF3C7] text-[#B45309]",
+                variant: "amber",
             };
         case "reschedule_proposed":
             return {
                 label: "Perubahan jadwal",
-                className: "border-[#D97706] bg-[#FEF3C7] text-[#B45309]",
+                variant: "amber",
             };
         case "rejected":
             return {
                 label: "Ditolak",
-                className: "border-[#DC2626] bg-[#FEE2E2] text-[#B91C1C]",
+                variant: "red",
             };
     }
 }
@@ -47,14 +47,9 @@ export function ScheduleCard({ item }: ScheduleCardProps) {
                 </p>
             </div>
 
-            <span
-                className={cn(
-                    "w-fit shrink-0 rounded-md border px-2.5 py-0.5 font-mono text-[11px] font-semibold",
-                    badge.className
-                )}
-            >
+            <Chip variant={badge.variant} className="w-fit shrink-0">
                 {badge.label}
-            </span>
+            </Chip>
         </div>
     );
 }
