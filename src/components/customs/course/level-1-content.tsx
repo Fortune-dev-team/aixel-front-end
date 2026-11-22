@@ -3,7 +3,9 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { StepBadge } from "@/components/ui/stepbadge";
+import { AnswerOptionGroup } from "@/components/ui/answeroption";
+import { Chip } from "@/components/ui/Chip";
 import { LEVEL1_QUIZ_SETS } from "./constants";
 import { useCourseProgress } from "./use-course-progress";
 import { ConfirmModal } from "./widgets/confirm-modal";
@@ -124,41 +126,23 @@ export function Level1Content() {
             {questions.map((q) => (
               <div key={q.id} className="space-y-2.5">
                 <div className="flex items-start gap-2.5">
-                  <span className="inline-flex size-5 shrink-0 items-center justify-center rounded bg-[#0A0A0A] font-mono text-[11px] font-bold text-white">
-                    {q.number}
-                  </span>
+                  <StepBadge step={q.number} size="sm" className="shrink-0" />
                   <p className="font-mono text-xs font-bold text-[#0A0A0A] sm:text-sm">
                     {q.question}
                   </p>
                 </div>
 
-                <div className="space-y-2">
-                  {q.options.map((opt) => {
-                    const isSelected = answers[q.id] === opt.id;
-                    return (
-                      <label
-                        key={opt.id}
-                        className={cn(
-                          "flex cursor-pointer items-center gap-3 rounded-lg border-2 px-3.5 py-2.5 font-sans text-xs transition-colors",
-                          isSelected
-                            ? "border-[#0A0A0A] bg-[#FFDDD3] font-semibold text-[#0A0A0A]"
-                            : "border-[#0A0A0A]/40 bg-[#FDFCFA] text-[#262626] hover:border-[#0A0A0A]"
-                        )}
-                      >
-                        <input
-                          type="radio"
-                          name={q.id}
-                          checked={isSelected}
-                          onChange={() =>
-                            setAnswers((prev) => ({ ...prev, [q.id]: opt.id }))
-                          }
-                          className="accent-[#0A0A0A]"
-                        />
-                        <span>{opt.label}</span>
-                      </label>
-                    );
-                  })}
-                </div>
+                <AnswerOptionGroup
+                  groupLabel={q.question}
+                  value={answers[q.id] ?? ""}
+                  onChange={(val) =>
+                    setAnswers((prev) => ({ ...prev, [q.id]: val }))
+                  }
+                  options={q.options.map((opt) => ({
+                    value: opt.id,
+                    label: opt.label,
+                  }))}
+                />
               </div>
             ))}
           </div>
@@ -219,16 +203,12 @@ export function Level1Content() {
                 )}
               </div>
 
-              <span
-                className={cn(
-                  "shrink-0 rounded-md border px-2.5 py-0.5 font-mono text-[11px] font-semibold",
-                  scoreResult.passed
-                    ? "border-[#16A34A] bg-[#DCFCE7] text-[#15803D]"
-                    : "border-[#DC2626] bg-[#FEE2E2] text-[#B91C1C]"
-                )}
+              <Chip
+                variant={scoreResult.passed ? "green" : "red"}
+                className="shrink-0"
               >
                 {scoreResult.passed ? "Lulus" : "Belum lulus"}
-              </span>
+              </Chip>
             </div>
 
             <div className="mt-4 flex flex-wrap items-center gap-2.5">

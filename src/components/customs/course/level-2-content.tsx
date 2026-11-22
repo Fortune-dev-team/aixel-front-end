@@ -4,7 +4,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
-import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
+import { Chip } from "@/components/ui/Chip";
 import {
     LEVEL2_CASE_PROMPTS,
     LEVEL2_FAILED_RUBRIC,
@@ -123,12 +124,14 @@ export function Level2Content() {
                         {currentCasePrompt}
                     </p>
 
-                    <textarea
+                    <Textarea
                         rows={6}
+                        size="md"
+                        resize="vertical"
                         value={answerText}
                         onChange={(e) => setAnswerText(e.target.value)}
                         placeholder="Tulis jawaban Anda..."
-                        className="mt-4 w-full rounded-lg border-2 border-[#0A0A0A] bg-white p-3 font-sans text-xs text-[#0A0A0A] placeholder:text-[#737373] focus:outline-none sm:text-sm"
+                        className="mt-4 bg-white"
                     />
 
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
@@ -162,16 +165,12 @@ export function Level2Content() {
                                 Hasil penilaian AI
                             </h2>
 
-                            <span
-                                className={cn(
-                                    "shrink-0 rounded-md border px-2.5 py-0.5 font-mono text-[11px] font-semibold",
-                                    isPassed
-                                        ? "border-[#16A34A] bg-[#DCFCE7] text-[#15803D]"
-                                        : "border-[#DC2626] bg-[#FEE2E2] text-[#B91C1C]"
-                                )}
+                            <Chip
+                                variant={isPassed ? "green" : "red"}
+                                className="shrink-0"
                             >
                                 {isPassed ? "Lulus" : "Belum lulus"}
-                            </span>
+                            </Chip>
                         </div>
 
                         <DataTable

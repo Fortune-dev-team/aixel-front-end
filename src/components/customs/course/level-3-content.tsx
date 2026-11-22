@@ -3,6 +3,9 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Chip, type ChipVariant } from "@/components/ui/Chip";
+import { FormField } from "@/components/ui/form-field";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { LEVEL3_MENTORS } from "./constants";
 import type {
@@ -46,32 +49,32 @@ function formatIndonesianDateTime(rawValue: string): string {
     return `${dayName}, ${dateNum} ${monthName} ${year}, ${hours}.${minutes}`;
 }
 
-function getStatusBadge(status: InterviewStatus) {
+function getStatusBadge(status: InterviewStatus): { label: string; variant: ChipVariant } | null {
     switch (status) {
         case "waiting":
             return {
                 label: "Menunggu",
-                className: "border-[#D97706] bg-[#FEF3C7] text-[#B45309]",
+                variant: "amber",
             };
         case "rejected":
             return {
                 label: "Ditolak",
-                className: "border-[#DC2626] bg-[#FEE2E2] text-[#B91C1C]",
+                variant: "red",
             };
         case "reschedule_proposed":
             return {
                 label: "Perubahan jadwal",
-                className: "border-[#D97706] bg-[#FEF3C7] text-[#B45309]",
+                variant: "amber",
             };
         case "scheduled":
             return {
                 label: "Dijadwalkan",
-                className: "border-[#3B82F6] bg-[#DBEAFE] text-[#1D4ED8]",
+                variant: "blue",
             };
         case "passed":
             return {
                 label: "Lulus",
-                className: "border-[#16A34A] bg-[#DCFCE7] text-[#15803D]",
+                variant: "green",
             };
         default:
             return null;
@@ -193,14 +196,9 @@ export function Level3Content() {
                             <div>
                                 <div className="flex justify-end">
                                     {badge && (
-                                        <span
-                                            className={cn(
-                                                "rounded-md border px-2.5 py-0.5 font-mono text-[11px] font-semibold",
-                                                badge.className
-                                            )}
-                                        >
+                                        <Chip variant={badge.variant} className="shrink-0">
                                             {badge.label}
-                                        </span>
+                                        </Chip>
                                     )}
                                 </div>
 
@@ -232,14 +230,9 @@ export function Level3Content() {
                                     </div>
 
                                     {badge && (
-                                        <span
-                                            className={cn(
-                                                "shrink-0 rounded-md border px-2.5 py-0.5 font-mono text-[11px] font-semibold",
-                                                badge.className
-                                            )}
-                                        >
+                                        <Chip variant={badge.variant} className="shrink-0">
                                             {badge.label}
-                                        </span>
+                                        </Chip>
                                     )}
                                 </div>
 
@@ -300,10 +293,10 @@ export function Level3Content() {
                         )}
                     </div>
 
-                    {/* Kontrol Simulasi Status Mentor untuk Preview */}
+                    {/* Simulasi status mentor */}
                     <div className="flex flex-wrap items-center gap-2 rounded-lg border border-dashed border-[#0A0A0A]/40 bg-[#FDFCFA] px-3.5 py-2.5">
                         <span className="font-mono text-[11px] font-semibold text-[#525252]">
-                            Simulasi status mentor:
+                            Simulasi respon mentor:
                         </span>
                         {(
                             [
@@ -379,19 +372,16 @@ export function Level3Content() {
                         </p>
 
                         <div className="mt-4">
-                            <label
-                                htmlFor="jadwal-datetime"
-                                className="block font-mono text-xs font-bold text-[#0A0A0A]"
-                            >
-                                Tanggal dan jam
-                            </label>
-                            <input
-                                id="jadwal-datetime"
-                                type="datetime-local"
-                                value={dateTimeInput}
-                                onChange={(e) => setDateTimeInput(e.target.value)}
-                                className="mt-1.5 w-full rounded-lg border-2 border-[#0A0A0A] bg-white px-3 py-2 font-mono text-xs text-[#0A0A0A] focus:outline-none"
-                            />
+                            <FormField label="Tanggal dan jam" htmlFor="jadwal-datetime">
+                                <Input
+                                    id="jadwal-datetime"
+                                    type="datetime-local"
+                                    size="sm"
+                                    value={dateTimeInput}
+                                    onChange={(e) => setDateTimeInput(e.target.value)}
+                                    className="bg-white"
+                                />
+                            </FormField>
                         </div>
 
                         <div className="mt-5 flex items-center gap-2.5">

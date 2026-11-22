@@ -2,29 +2,31 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Chip, type ChipVariant } from "@/components/ui/Chip";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { cn } from "@/lib/utils";
 import { COURSE_GOALS, LEVEL_METADATA } from "./constants";
 import type { LevelStatus } from "./interfaces";
 import { useCourseProgress } from "./use-course-progress";
 import { CourseHeader } from "./widgets/course-header";
 
-function getBadgeConfig(status: LevelStatus) {
+function getBadgeConfig(status: LevelStatus): { label: string; variant: ChipVariant } {
     switch (status) {
         case "passed":
             return {
                 label: "Lulus",
-                className: "border-[#16A34A] bg-[#DCFCE7] text-[#15803D]",
+                variant: "green",
             };
         case "active":
         case "in_progress":
             return {
                 label: "Aktif",
-                className: "border-[#3B82F6] bg-[#DBEAFE] text-[#1D4ED8]",
+                variant: "blue",
             };
         default:
             return {
                 label: "Terkunci",
-                className: "border-[#A3A3A3] bg-[#F5F5F4] text-[#525252]",
+                variant: "neutral",
             };
     }
 }
@@ -47,27 +49,11 @@ export function CourseContent() {
             />
 
             {!hasGoal ? (
-                <div className="flex min-h-[160px] flex-col items-center justify-center rounded-xl border-2 border-[#0A0A0A] bg-[#FDFCFA] p-6 text-center shadow-[3px_3px_0_0_#0A0A0A]">
-                    <p className="font-sans text-xs text-[#6B6B6B] sm:text-sm">
-                        Belum ada goal aktif. Pilih goal dulu.
-                    </p>
-                    <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-                        <Button
-                            variant="coral"
-                            size="sm"
-                            onPress={() => router.push("/team/goal")}
-                        >
-                            Pilih goal
-                        </Button>
-                        <Button
-                            variant="white"
-                            size="sm"
-                            onPress={() => setCourseGoalMode(true)}
-                        >
-                            Tampilkan daftar course
-                        </Button>
-                    </div>
-                </div>
+                <EmptyState
+                    message="Belum ada goal aktif. Pilih goal dulu."
+                    actionLabel="Pilih goal"
+                    onAction={() => router.push("/team/goal")}
+                />
             ) : (
                 <>
                     {/* Dropdown Pemilih Goal */}
@@ -134,14 +120,12 @@ export function CourseContent() {
                                                 </p>
                                             </div>
 
-                                            <span
-                                                className={cn(
-                                                    "shrink-0 rounded-md border px-2 py-0.5 font-mono text-[11px] font-semibold",
-                                                    badge.className
-                                                )}
+                                            <Chip
+                                                variant={badge.variant}
+                                                className="shrink-0"
                                             >
                                                 {badge.label}
-                                            </span>
+                                            </Chip>
                                         </div>
 
                                         <p className="mt-3 font-sans text-xs leading-relaxed text-[#6B6B6B]">
