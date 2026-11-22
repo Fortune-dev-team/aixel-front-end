@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Chip, type ChipVariant } from "@/components/ui/Chip";
 import type {
     AttributeDecisionStatus,
     AttributeResultItem,
@@ -14,22 +14,22 @@ interface AttributeResultCardProps {
     onOpenCertificate: (cert: CertificateData) => void;
 }
 
-function getDecisionBadge(status: AttributeDecisionStatus) {
+function getDecisionBadge(status: AttributeDecisionStatus): { label: string; variant: ChipVariant } {
     switch (status) {
         case "passed":
             return {
                 label: "Lulus",
-                className: "border-[#16A34A] bg-[#DCFCE7] text-[#15803D]",
+                variant: "green",
             };
         case "failed_final":
             return {
                 label: "Tidak lulus",
-                className: "border-[#DC2626] bg-[#FEE2E2] text-[#B91C1C]",
+                variant: "red",
             };
         default:
             return {
                 label: "Belum lulus",
-                className: "border-[#D97706] bg-[#FEF3C7] text-[#B45309]",
+                variant: "amber",
             };
     }
 }
@@ -60,14 +60,9 @@ export function AttributeResultCard({
                         )}
                 </div>
 
-                <span
-                    className={cn(
-                        "shrink-0 rounded-md border px-2.5 py-0.5 font-mono text-[11px] font-semibold",
-                        badge.className
-                    )}
-                >
+                <Chip variant={badge.variant} className="shrink-0">
                     {badge.label}
-                </span>
+                </Chip>
             </div>
 
             {item.status === "passed" && item.certificate && (

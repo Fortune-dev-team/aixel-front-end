@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
+import { FormField } from "@/components/ui/form-field";
+import { Textarea } from "@/components/ui/textarea";
 
 interface RejectMentorModalProps {
     isOpen: boolean;
@@ -37,9 +39,7 @@ export function RejectMentorModal({
 
     const handleSubmit = () => {
         const currentReason = reason;
-        if (currentReason.trim()) {
-            setReason("");
-        }
+        setReason("");
         onSubmit(currentReason);
     };
 
@@ -90,20 +90,17 @@ export function RejectMentorModal({
                 </p>
 
                 <div className="mt-4">
-                    <label
-                        htmlFor="reject-mentor-reason"
-                        className="block font-mono text-xs font-bold text-[#0A0A0A]"
-                    >
-                        Keterangan <span className="text-[#DC2626]">*</span>
-                    </label>
-                    <textarea
-                        id="reject-mentor-reason"
-                        rows={4}
-                        value={reason}
-                        onChange={(e) => setReason(e.target.value)}
-                        placeholder="Tulis catatan Anda..."
-                        className="mt-1.5 w-full rounded-lg border-2 border-[#0A0A0A] bg-white p-3 font-sans text-xs text-[#0A0A0A] placeholder:text-[#737373] focus:outline-none"
-                    />
+                    <FormField label="Keterangan" required htmlFor="reject-mentor-reason">
+                        <Textarea
+                            id="reject-mentor-reason"
+                            rows={4}
+                            size="sm"
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                            placeholder="Tulis catatan Anda..."
+                            className="bg-white"
+                        />
+                    </FormField>
                 </div>
 
                 <div className="mt-5 flex items-center gap-2.5">
