@@ -15,6 +15,7 @@ import { Toast } from "@/components/ui/Toast";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 import { MentorInviteBanner } from "@/components/ui/MentorInviteBanner";
+import { AppSidebar, AppSidebarContent } from "@/components/layout/admin/app-sidebar";
 
 const chipVariants: ChipVariant[] = ["neutral", "amber", "coral", "red", "green", "blue"];
 
@@ -144,6 +145,43 @@ export default function ComponentsTestPage() {
                   ))}
               </div>
           </Section>
+
+            <Section title="AppSidebar" level="Organism">
+                <div className="flex flex-col gap-4">
+                    <p className="text-xs text-zinc-600">
+                        Sidebar admin Aixel dengan navigasi MenuItem, Separator, ScrollShadow, dan dukungan HeroUI Drawer untuk mobile.
+                    </p>
+                    <div className="flex flex-wrap items-start gap-8">
+                        <div className="h-[740px] w-64 overflow-hidden rounded-xl border-2 border-black bg-white shadow-[4px_4px_0_0_#111111]">
+                            <AppSidebarContent
+                                activeKey={activeMenu}
+                                onItemClick={(item) => {
+                                    setActiveMenu(item.id);
+                                    pushToast("success", `Menu: ${item.label}`);
+                                }}
+                                onLogout={() => pushToast("error", "Logout diklik")}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <h3 className="font-mono text-sm font-bold">HeroUI Drawer Preview:</h3>
+                            <AppSidebar
+                                variant="drawer"
+                                drawerTrigger={
+                                    <Button variant="coral" size="sm">
+                                        Buka Admin Drawer
+                                    </Button>
+                                }
+                                activeKey={activeMenu}
+                                onItemClick={(item) => {
+                                    setActiveMenu(item.id);
+                                    pushToast("success", `Drawer: ${item.label}`);
+                                }}
+                                onLogout={() => pushToast("error", "Logout diklik")}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Section>
 
             <Section title="Toast" level="Molecule">
                 <div className="flex flex-col gap-4">

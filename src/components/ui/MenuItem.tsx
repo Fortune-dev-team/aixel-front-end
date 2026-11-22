@@ -35,7 +35,12 @@ export const MenuItem = ({
     );
 
     return href ? (
-        <a href={href} aria-current={state === "active" ? "page" : undefined} className={classes}>
+        <a
+            href={href}
+            onClick={onClick}
+            aria-current={state === "active" ? "page" : undefined}
+            className={classes}
+        >
             {content}
         </a>
     ) : (
