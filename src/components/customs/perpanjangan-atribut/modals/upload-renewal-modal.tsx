@@ -2,6 +2,9 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
+import { FormField } from "@/components/ui/form-field";
+import { Input } from "@/components/ui/input";
+import { InputUpload } from "@/components/ui/input-upload";
 import type { AttributeRenewalItem } from "../interfaces";
 
 interface UploadRenewalModalProps {
@@ -17,14 +20,10 @@ export function UploadRenewalModal({
 }: UploadRenewalModalProps) {
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
     const [projectNote, setProjectNote] = React.useState("");
-    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
     const resetForm = React.useCallback(() => {
         setSelectedFile(null);
         setProjectNote("");
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
     }, []);
 
     const handleClose = React.useCallback(() => {
@@ -101,51 +100,31 @@ export function UploadRenewalModal({
 
                 <div className="mt-4 space-y-4">
                     {/* Input Berkas */}
-                    <div>
-                        <label
-                            htmlFor="renewal-proof-file"
-                            className="block font-mono text-xs font-bold text-[#0A0A0A]"
-                        >
-                            Berkas
-                        </label>
-                        <div className="mt-1.5 flex items-center gap-2.5 rounded-lg border-2 border-[#0A0A0A] bg-white px-2.5 py-2">
-                            <input
-                                ref={fileInputRef}
-                                id="renewal-proof-file"
-                                type="file"
-                                onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
-                                className="sr-only"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => fileInputRef.current?.click()}
-                                className="shrink-0 cursor-pointer rounded border border-[#0A0A0A]/50 bg-[#EFEFEB] px-2.5 py-0.5 font-sans text-[11px] font-medium text-[#0A0A0A] transition-colors hover:bg-[#E5E5E0]"
-                            >
-                                Choose File
-                            </button>
-                            <span className="truncate font-sans text-xs text-[#6B6B6B]">
-                                {selectedFile ? selectedFile.name : "No file chosen"}
-                            </span>
-                        </div>
-                    </div>
+                    <FormField
+                        label="Berkas"
+                        htmlFor="renewal-proof-file"
+                        description={selectedFile ? `Terpilih: ${selectedFile.name}` : "Belum ada berkas dipilih."}
+                    >
+                        <InputUpload
+                            id="renewal-proof-file"
+                            size="sm"
+                            buttonText="Pilih berkas"
+                            onFileChange={(files) => setSelectedFile(files?.[0] ?? null)}
+                        />
+                    </FormField>
 
                     {/* Input Keterangan Proyek */}
-                    <div>
-                        <label
-                            htmlFor="renewal-project-note"
-                            className="block font-mono text-xs font-bold text-[#0A0A0A]"
-                        >
-                            Keterangan proyek
-                        </label>
-                        <input
+                    <FormField label="Keterangan proyek" htmlFor="renewal-project-note">
+                        <Input
                             id="renewal-project-note"
                             type="text"
+                            size="sm"
                             value={projectNote}
                             onChange={(e) => setProjectNote(e.target.value)}
                             placeholder="Masukkan keterangan proyek"
-                            className="mt-1.5 w-full rounded-lg border-2 border-[#0A0A0A] bg-white px-3 py-2 font-sans text-xs text-[#0A0A0A] placeholder:text-[#737373] focus:outline-none"
+                            className="bg-white"
                         />
-                    </div>
+                    </FormField>
                 </div>
 
                 <div className="mt-5 flex items-center gap-2.5">
