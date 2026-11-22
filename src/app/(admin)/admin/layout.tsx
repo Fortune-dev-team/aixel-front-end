@@ -1,23 +1,26 @@
-import AppSidebar from "@/components/layout/admin/app-sidebar";
-import AdminHeader from "@/components/layout/admin/admin-header";
+"use client"
+
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { AdminSidebar } from "@/components/layout/admin/admin-sidebar"
+import { AdminTopbar } from "@/components/layout/admin/admin-topbar"
 
 export default function AdminLayout({
     children,
 }: {
-    children: React.ReactNode;
+    children: React.ReactNode
 }) {
-    return (
-        <div className="flex min-h-screen bg-[#faf8f5] text-black">
-            {/* Sidebar (Desktop static aside + Mobile HeroUI drawer) */}
-            <AppSidebar variant="responsive" />
+    const router = useRouter()
 
-            {/* Main Area with Admin Header */}
-            <div className="flex flex-1 flex-col min-w-0">
-                <AdminHeader />
-                <main className="flex-1 overflow-y-auto p-6 md:p-8">
-                    {children}
-                </main>
-            </div>
-        </div>
-    );
+    return (
+        <SidebarProvider className="min-h-screen w-full bg-[#F5F5F2] text-[#0A0A0A]">
+            <AdminSidebar onLogout={() => router.push("/login")} />
+
+            <SidebarInset className="flex min-w-0 flex-1 flex-col bg-[#F5F5F2]">
+                <AdminTopbar userName="Admin Aixel" notificationCount={2} />
+                <main className="flex-1 px-5 py-6 sm:px-8 sm:py-8">{children}</main>
+            </SidebarInset>
+        </SidebarProvider>
+    )
 }
