@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Chip } from "@/components/ui/Chip";
 import type { GoalAttribute } from "../interfaces";
 
 interface GoalCardProps {
@@ -25,9 +26,9 @@ export function GoalCard({
                     </h2>
 
                     {isActive && (
-                        <span className="shrink-0 rounded-md border border-[#3B82F6] bg-[#DBEAFE] px-2 py-0.5 font-mono text-[11px] font-semibold text-[#1D4ED8]">
+                        <Chip variant="blue" className="shrink-0">
                             Goal aktif
-                        </span>
+                        </Chip>
                     )}
                 </div>
 
@@ -39,9 +40,10 @@ export function GoalCard({
             <div className="mt-4">
                 {isActive ? (
                     <Button
+                        variant="white"
                         size="sm"
                         onPress={() => onRequestDelete(attribute)}
-                        className="cursor-pointer rounded-md border-2 border-[#0A0A0A] bg-white px-3 py-1.5 font-mono text-xs font-bold text-[#0A0A0A] shadow-[2px_2px_0_0_#0A0A0A] transition-transform hover:bg-[#F5F5F4] active:translate-x-[1px] active:translate-y-[1px]"
+                        className="cursor-pointer"
                     >
                         Hapus goal
                     </Button>
@@ -50,7 +52,7 @@ export function GoalCard({
                         variant="coral"
                         size="sm"
                         onPress={() => onActivate(attribute)}
-                        className="cursor-pointer font-mono text-xs font-bold text-[#0A0A0A]"
+                        className="cursor-pointer text-[#0A0A0A]"
                     >
                         Jadikan goal
                     </Button>

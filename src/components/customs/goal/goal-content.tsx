@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Toast } from "@/components/ui/Toast";
 import { GOAL_ATTRIBUTES } from "./constants";
 import { useGoal } from "./use-goal";
 import { GoalHeader } from "./widgets/goal-header";
@@ -69,16 +69,18 @@ export function GoalContent() {
 
                         <div className="mt-5 flex items-center gap-2.5">
                             <Button
+                                variant="white"
                                 size="sm"
                                 onPress={() => setGoalToDelete(null)}
-                                className="cursor-pointer rounded-md border-2 border-[#0A0A0A] bg-white px-3.5 py-1.5 font-mono text-xs font-bold text-[#0A0A0A] shadow-[2px_2px_0_0_#0A0A0A] hover:bg-[#F5F5F4]"
+                                className="cursor-pointer"
                             >
                                 Batal
                             </Button>
                             <Button
+                                variant="red"
                                 size="sm"
                                 onPress={handleConfirmDelete}
-                                className="cursor-pointer rounded-md border-2 border-[#0A0A0A] bg-[#EF4444] px-3.5 py-1.5 font-mono text-xs font-bold text-[#0A0A0A] shadow-[2px_2px_0_0_#0A0A0A] hover:bg-[#DC2626]"
+                                className="cursor-pointer"
                             >
                                 Hapus
                             </Button>
@@ -87,56 +89,14 @@ export function GoalContent() {
                 </div>
             )}
 
-            {/* Right-Bottom Toast */}
+            {/* Toast Notifikasi */}
             {toast && (
-                <div
-                    role="status"
-                    aria-live="polite"
-                    className={cn(
-                        "fixed bottom-5 right-5 z-50 flex min-w-[260px] items-center justify-between gap-4 rounded-md border border-[#0A0A0A] border-b-[3px] bg-[#141414] px-3.5 py-2.5 font-mono text-xs text-white shadow-[3px_3px_0_0_#0A0A0A]",
-                        toast.type === "success" ? "border-b-[#22C55E]" : "border-b-[#EF4444]"
-                    )}
-                >
-                    <div className="flex items-center gap-2.5">
-                        {toast.type === "success" ? (
-                            <svg
-                                className="h-4 w-4 shrink-0 text-[#22C55E]"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.5"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                        ) : (
-                            <svg
-                                className="h-4 w-4 shrink-0 text-[#EF4444]"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.2"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
-                                />
-                            </svg>
-                        )}
-                        <span>{toast.message}</span>
-                    </div>
-
-                    <button
-                        type="button"
-                        onClick={dismissToast}
-                        aria-label="Tutup notifikasi"
-                        className="cursor-pointer text-white/70 transition-colors hover:text-white"
-                    >
-                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
+                <Toast
+                    type={toast.type}
+                    message={toast.message}
+                    onClose={dismissToast}
+                    className="fixed right-5 bottom-5 z-50 min-w-[260px] font-mono"
+                />
             )}
         </div>
     );
