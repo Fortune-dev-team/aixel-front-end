@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { AnswerOption } from "@/components/ui/answer-option";
 import { Button } from "@/components/ui/button";
-import { StepBadge } from "@/components/ui/stepbadge";
-import { AnswerOptionGroup } from "@/components/ui/answeroption";
 import { Chip } from "@/components/ui/Chip";
+import { RadioGroup } from "@/components/ui/radio-field";
+import { StepBadge } from "@/components/ui/stepbadge";
 import { LEVEL1_QUIZ_SETS } from "./constants";
 import { useCourseProgress } from "./use-course-progress";
 import { ConfirmModal } from "./widgets/confirm-modal";
@@ -80,7 +81,6 @@ export function Level1Content() {
         backHref="/team/course"
       />
 
-      {/* Step 1: Materi */}
       {step === "materi" && (
         <div className="space-y-4">
           <div className="rounded-xl border-2 border-[#0A0A0A] bg-[#FDFCFA] p-5 shadow-[3px_3px_0_0_#0A0A0A]">
@@ -115,7 +115,6 @@ export function Level1Content() {
         </div>
       )}
 
-      {/* Step 2: Latihan */}
       {step === "latihan" && (
         <div className="rounded-xl border-2 border-[#0A0A0A] bg-[#FDFCFA] p-5 shadow-[3px_3px_0_0_#0A0A0A]">
           <h2 className="font-mono text-sm font-bold text-[#0A0A0A]">
@@ -132,17 +131,23 @@ export function Level1Content() {
                   </p>
                 </div>
 
-                <AnswerOptionGroup
-                  groupLabel={q.question}
+                <RadioGroup
+                  aria-label={q.question}
                   value={answers[q.id] ?? ""}
-                  onChange={(val) =>
+                  onValueChange={(val) =>
                     setAnswers((prev) => ({ ...prev, [q.id]: val }))
                   }
-                  options={q.options.map((opt) => ({
-                    value: opt.id,
-                    label: opt.label,
-                  }))}
-                />
+                  className="gap-3"
+                >
+                  {q.options.map((opt) => (
+                    <AnswerOption
+                      key={opt.id}
+                      value={opt.id}
+                      label={opt.label}
+                      className="shadow-[3px_3px_0_0_#0A0A0A]"
+                    />
+                  ))}
+                </RadioGroup>
               </div>
             ))}
           </div>
@@ -159,7 +164,6 @@ export function Level1Content() {
         </div>
       )}
 
-      {/* Step 3: Hasil Penilaian */}
       {step === "hasil" && scoreResult && (
         <div className="space-y-4">
           <div className="rounded-xl border-2 border-[#0A0A0A] bg-[#FDFCFA] p-5 shadow-[3px_3px_0_0_#0A0A0A]">
