@@ -23,7 +23,7 @@ const COLUMNS: DataTableColumn<AttributeOwnerItem>[] = [
     { key: "lulus", label: "Lulus", align: "left" },
     { key: "berlakuSampai", label: "Berlaku sampai", align: "left" },
     {
-        key: "id",
+        key: "sertifikat",
         label: "Sertifikat",
         align: "left",
         render: () => (
@@ -43,7 +43,7 @@ const COLUMNS: DataTableColumn<AttributeOwnerItem>[] = [
         ),
     },
     {
-        key: "id",
+        key: "aksi",
         label: "Aksi",
         align: "left",
         render: (row) =>
