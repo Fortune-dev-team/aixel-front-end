@@ -1,5 +1,5 @@
-import { BasisPengetahuanContent } from "@/components/customs/admin/basis-pengetahuan/basis-pengetahuan-content";
+import { redirect } from "next/navigation";
 
 export default function BasisPengetahuanPage() {
-    return <BasisPengetahuanContent />;
+    redirect("/admin/basis-pengetahuan/materi");
 }
