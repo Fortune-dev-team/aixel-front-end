@@ -3,6 +3,11 @@ export interface TeamNavItem {
     href: string
 }
 
+export interface TeamNavGroup {
+    title: string
+    items: TeamNavItem[]
+}
+
 export interface TeamSidebarProps {
     onLogout: () => void
 }
