@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { Table } from "@heroui/react";
 import type { Key, ReactNode } from "react";

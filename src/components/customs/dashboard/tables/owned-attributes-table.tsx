@@ -2,7 +2,7 @@
 
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table"
 import { Chip } from "@/components/ui/Chip"
-import { EmptyStateCard } from "../cards/empty-state-card"
+import { EmptyState } from "@/components/ui/EmptyState"
 import type { OwnedAttributeRow } from "../interfaces"
 
 interface OwnedAttributesTableProps {
@@ -60,7 +60,7 @@ const COLUMNS: DataTableColumn<OwnedAttributeRow>[] = [
         key: "status",
         label: "Status",
         width: "12%",
-        render: (row) => <Chip variant="green">{row.status}</Chip>,
+        render: () => <Chip variant="green">Aktif</Chip>,
     },
 ]
 
@@ -72,7 +72,7 @@ export function OwnedAttributesTable({ rows }: OwnedAttributesTableProps) {
             </h2>
 
             {rows.length === 0 ? (
-                <EmptyStateCard message="Belum memiliki atribut. Lulus Level 3 untuk mendapatkannya." />
+                <EmptyState message="Belum memiliki atribut. Lulus Level 3 untuk mendapatkannya." />
             ) : (
                 <DataTable
                     ariaLabel="Daftar atribut yang dimiliki"

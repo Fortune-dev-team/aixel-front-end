@@ -19,10 +19,21 @@ import {
 import { cn } from "@/lib/utils"
 import { TEAM_NAV_GROUPS } from "./constants"
 import type { TeamSidebarProps } from "./interfaces"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { LogoutModal } from "@/components/customs/keluar/logout-modal";
 
 export function TeamSidebar({ onLogout }: TeamSidebarProps) {
     const pathname = usePathname()
     const { setOpenMobile } = useSidebar()
+    const router = useRouter();
+    const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+
+    const handleConfirmLogout = () => {
+        setIsLogoutOpen(false);
+        onLogout?.();
+        router.push("/");
+    };
 
     return (
         <Sidebar
