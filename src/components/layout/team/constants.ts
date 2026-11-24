@@ -20,8 +20,9 @@ export const TEAM_NAV_GROUPS: TeamNavGroup[] = [
         items: [
             { label: "Permintaan", href: "/team/permintaan" },
             { label: "Jadwal Wawancara", href: "/team/jadwal-wawancara" },
-            { label: "Hasil Nilai", href: "/team/hasil-nilai" },
+            { label: "Input Hasil", href: "/team/hasil-nilai" },
             { label: "Ringkasan Kandidat", href: "/team/ringkasan-kandidat" },
+            { label: "Rubrik Wawancara", href: "/team/rubrik-wawancara" },
             { label: "Riwayat Penilaian", href: "/team/riwayat-penilaian" },
         ],
     },

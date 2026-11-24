@@ -5,7 +5,6 @@ import { InputHasilFormCard } from "./cards/input-card"
 import type { InputHasilContentProps } from "./interfaces"
 import { useInputHasil } from "./use-input-hasil"
 import { InputHasilHeader } from "./widgets/header"
-import { InputToast } from "./toasts/toast"
 
 export function InputHasilContent({
     initialCandidates,
@@ -45,7 +44,6 @@ export function InputHasilContent({
                 />
             )}
 
-            <InputToast />
         </div>
     )
 }
