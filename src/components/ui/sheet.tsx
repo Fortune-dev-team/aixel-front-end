@@ -66,8 +66,7 @@ function SheetContent({
               <Button
                 variant="ghost"
                 className="absolute top-3 right-3"
-                size="sm"
-                isIconOnly
+                size="icon-sm"
               />
             }
           >
@@ -137,5 +136,3 @@ export {
   SheetTitle,
   SheetDescription,
 }
-
-
