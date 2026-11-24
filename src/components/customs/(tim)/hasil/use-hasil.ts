@@ -1,62 +1,79 @@
 "use client";
 
 import * as React from "react";
+import { toast } from "@heroui/react";
 import { INITIAL_ATTRIBUTE_RESULTS, INITIAL_MENTOR_STATUS } from "./constants";
 import type {
     AttributeDecisionStatus,
     AttributeResultItem,
     CertificateData,
-    HasilToastState,
     MentorInvitationStatus,
     MentorStatusState,
 } from "./interfaces";
 
-export function useHasil() {
-    const [results, setResults] = React.useState<AttributeResultItem[]>(
-        INITIAL_ATTRIBUTE_RESULTS
-    );
-    const [mentorState, setMentorState] = React.useState<MentorStatusState>(
-        INITIAL_MENTOR_STATUS
-    );
+interface UseHasilOptions {
+    initialResults?: AttributeResultItem[];
+    initialMentorStatus?: MentorStatusState;
+    onAcceptMentor?: () => Promise<void> | void;
+    onRejectMentor?: (reason: string) => Promise<void> | void;
+}
+
+export function useHasil({
+    initialResults = INITIAL_ATTRIBUTE_RESULTS,
+    initialMentorStatus = INITIAL_MENTOR_STATUS,
+    onAcceptMentor,
+    onRejectMentor,
+}: UseHasilOptions = {}) {
+    const [results, setResults] =
+        React.useState<AttributeResultItem[]>(initialResults);
+    const [mentorState, setMentorState] =
+        React.useState<MentorStatusState>(initialMentorStatus);
     const [activeCertificate, setActiveCertificate] =
         React.useState<CertificateData | null>(null);
     const [isRejectModalOpen, setIsRejectModalOpen] = React.useState(false);
-    const [toast, setToast] = React.useState<HasilToastState | null>(null);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-    const showToast = React.useCallback(
-        (type: "success" | "error", message: string) => {
-            setToast({ id: Date.now(), type, message });
-        },
-        []
-    );
+    const handleAcceptMentor = async () => {
+        try {
+            setIsSubmitting(true);
+            await onAcceptMentor?.();
 
-    const dismissToast = React.useCallback(() => {
-        setToast(null);
-    }, []);
-
-    const handleAcceptMentor = () => {
-        setMentorState((prev) => ({
-            ...prev,
-            status: "active",
-        }));
-        showToast(
-            "success",
-            `Anda menjadi mentor ${mentorState.attributeTitle.toLowerCase()}.`
-        );
+            setMentorState((prev) => ({
+                ...prev,
+                status: "active",
+            }));
+            toast.success(
+                `Anda menjadi mentor ${mentorState.attributeTitle.toLowerCase()}.`,
+                { timeout: 4000 }
+            );
+        } catch {
+            toast.danger("Gagal menerima undangan mentor.", { timeout: 4000 });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
-    const handleSubmitRejectMentor = (reason: string) => {
+    const handleSubmitRejectMentor = async (reason: string) => {
         if (!reason.trim()) {
-            showToast("error", "Penolakan gagal terkirim.");
+            toast.danger("Penolakan gagal terkirim.", { timeout: 4000 });
             return;
         }
 
-        setIsRejectModalOpen(false);
-        setMentorState((prev) => ({
-            ...prev,
-            status: "empty",
-        }));
-        showToast("success", "Penolakan terkirim.");
+        try {
+            setIsSubmitting(true);
+            await onRejectMentor?.(reason.trim());
+
+            setIsRejectModalOpen(false);
+            setMentorState((prev) => ({
+                ...prev,
+                status: "empty",
+            }));
+            toast.success("Penolakan terkirim.", { timeout: 4000 });
+        } catch {
+            toast.danger("Penolakan gagal terkirim.", { timeout: 4000 });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const simulateProblemSolvingState = (nextStatus: AttributeDecisionStatus) => {
@@ -103,8 +120,7 @@ export function useHasil() {
         setActiveCertificate,
         isRejectModalOpen,
         setIsRejectModalOpen,
-        toast,
-        dismissToast,
+        isSubmitting,
         handleAcceptMentor,
         handleSubmitRejectMentor,
         simulateProblemSolvingState,

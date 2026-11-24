@@ -1,4 +1,4 @@
-import { DashboardContent } from "@/components/customs/dashboard/dashboard-content"
+import { DashboardContent } from "@/components/customs/(tim)/dashboard/dashboard-content"
 
 export default function TeamDashboardPage() {
     return <DashboardContent />

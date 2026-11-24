@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
+import { toast } from "@heroui/react";
 import { INITIAL_RENEWAL_ITEMS } from "./constants";
 import type {
     AttributeRenewalItem,
     AttributeRenewalStatus,
-    PerpanjanganToastState,
 } from "./interfaces";
 
 export function usePerpanjanganAtribut() {
@@ -14,18 +14,6 @@ export function usePerpanjanganAtribut() {
     );
     const [selectedItem, setSelectedItem] =
         React.useState<AttributeRenewalItem | null>(null);
-    const [toast, setToast] = React.useState<PerpanjanganToastState | null>(null);
-
-    const showToast = React.useCallback(
-        (type: "success" | "error", message: string) => {
-            setToast({ id: Date.now(), type, message });
-        },
-        []
-    );
-
-    const dismissToast = React.useCallback(() => {
-        setToast(null);
-    }, []);
 
     const handleOpenUploadModal = (item: AttributeRenewalItem) => {
         setSelectedItem(item);
@@ -39,7 +27,7 @@ export function usePerpanjanganAtribut() {
         if (!selectedItem) return;
 
         if (!file || !projectNote.trim()) {
-            showToast("error", "Bukti gagal dikirim.");
+            toast.danger("Bukti gagal dikirim.", { timeout: 4000 });
             return;
         }
 
@@ -56,7 +44,7 @@ export function usePerpanjanganAtribut() {
             )
         );
         setSelectedItem(null);
-        showToast("success", "Bukti perpanjangan terkirim.");
+        toast.success("Bukti perpanjangan terkirim.", { timeout: 4000 });
     };
 
     const simulateKomunikasiStatus = (nextStatus: AttributeRenewalStatus) => {
@@ -78,8 +66,6 @@ export function usePerpanjanganAtribut() {
     return {
         items,
         selectedItem,
-        toast,
-        dismissToast,
         handleOpenUploadModal,
         handleCloseUploadModal,
         handleSubmitProof,

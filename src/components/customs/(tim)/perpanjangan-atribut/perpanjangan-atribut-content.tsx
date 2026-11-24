@@ -5,14 +5,11 @@ import { UploadRenewalModal } from "./modals/upload-renewal-modal";
 import { PerpanjanganTable } from "./tables/perpanjangan-table";
 import { usePerpanjanganAtribut } from "./use-perpanjangan-atribut";
 import { PerpanjanganHeader } from "./widgets/perpanjangan-header";
-import { PerpanjanganToast } from "./widgets/perpanjangan-toast";
 
 export function PerpanjanganAtributContent() {
     const {
         items,
         selectedItem,
-        toast,
-        dismissToast,
         handleOpenUploadModal,
         handleCloseUploadModal,
         handleSubmitProof,
@@ -66,8 +63,7 @@ export function PerpanjanganAtributContent() {
                 onSubmit={handleSubmitProof}
             />
 
-            {/* Right-Bottom Toast */}
-            <PerpanjanganToast toast={toast} onDismiss={dismissToast} />
+
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { RiwayatPenilaianContent } from '@/components/customs/riwayat-penilaian/riwayat-penilaian-content';
+import { RiwayatPenilaianContent } from '@/components/customs/(mentor)/riwayat-penilaian/riwayat-penilaian-content';
 import React from 'react'
 
 export default function RiwayatPenilaian() {

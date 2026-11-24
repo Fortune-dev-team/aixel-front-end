@@ -1,4 +1,4 @@
-import { DashboardContent } from "@/components/customs/admin/dashboard/dashboard-content";
+import { DashboardContent } from "@/components/customs/(admin)/admin/dashboard/dashboard-content";
 
 export default function AdminDashboardPage() {
     return <DashboardContent />;

@@ -7,7 +7,6 @@ import { CertificateModal } from "./modals/certificate-modal";
 import { RejectMentorModal } from "./modals/reject-mentor-modal";
 import { useHasil } from "./use-hasil";
 import { HasilHeader } from "./widgets/hasil-header";
-import { HasilToast } from "./widgets/hasil-toast";
 
 export function HasilContent() {
     const {
@@ -17,8 +16,6 @@ export function HasilContent() {
         setActiveCertificate,
         isRejectModalOpen,
         setIsRejectModalOpen,
-        toast,
-        dismissToast,
         handleAcceptMentor,
         handleSubmitRejectMentor,
         simulateProblemSolvingState,
@@ -122,8 +119,6 @@ export function HasilContent() {
                 onSubmit={handleSubmitRejectMentor}
             />
 
-            {/* Right-Bottom Toast */}
-            <HasilToast toast={toast} onDismiss={dismissToast} />
         </div>
     );
 }
