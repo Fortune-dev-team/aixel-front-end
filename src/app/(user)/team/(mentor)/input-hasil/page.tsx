@@ -1,4 +1,4 @@
-import { InputHasilContent } from '@/components/customs/hasil-nilai/hasil-nilai-content';
+import { InputHasilContent } from '@/components/customs/input-hasil/input-hasil-content';
 import React from 'react'
 
 export default function InputHasil() {
