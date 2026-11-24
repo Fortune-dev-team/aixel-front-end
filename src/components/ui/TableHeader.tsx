@@ -1,6 +1,5 @@
 "use client";
 
-import { Table } from "@heroui/react";
 import type { Key, ReactNode } from "react";
 
 export interface DataTableColumn<T> {
@@ -16,6 +15,12 @@ export interface DataTableProps<T extends { id: Key }> {
     rows: T[];
     ariaLabel: string;
     emptyText?: string;
+    className?: string;
+}
+
+export interface TableHeaderProps {
+    columns: string[];
+    gridClassName?: string;
     className?: string;
 }
 
