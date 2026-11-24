@@ -25,12 +25,12 @@ export interface ButtonProps {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-    coral: "bg-[#ff4d2d] text-white border-black hover:bg-[#e03d1e]",
+    coral: "bg-[#ff4d2d] text-black border-black hover:bg-[#e03d1e]",
     black: "bg-black text-white border-black hover:bg-zinc-800",
     white: "bg-white text-black border-black hover:bg-zinc-100",
     red: "bg-[#d92626] text-white border-black hover:bg-[#b81d1d]",
-    amber: "bg-[#d97706] text-white border-black hover:bg-[#b45b03]",
-    green: "bg-[#059669] text-white border-black hover:bg-[#047857]",
+    amber: "bg-[#d97706] text-black border-black hover:bg-[#b45b03]",
+    green: "bg-[#059669] text-black border-black hover:bg-[#047857]",
     ghost: "bg-transparent text-black border-transparent shadow-none hover:bg-zinc-200/60",
 };
 
