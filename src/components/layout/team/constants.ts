@@ -8,7 +8,6 @@ export const TEAM_NAV_GROUPS: TeamNavGroup[] = [
             { label: "Tes Awal", href: "/team/tes-awal" },
             { label: "Goal", href: "/team/goal" },
             { label: "Course", href: "/team/course" },
-            { label: "Pilih Mentor", href: "/team/pilih-mentor" },
             { label: "Schedule", href: "/team/schedule" },
             { label: "Hasil", href: "/team/hasil" },
             { label: "Perpanjangan Atribut", href: "/team/perpanjangan-atribut" },
