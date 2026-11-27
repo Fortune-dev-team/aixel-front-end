@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Toast } from "@/components/ui/Toast";
 import { GOAL_ATTRIBUTES } from "./constants";
 import { useGoal } from "./use-goal";
 import { GoalHeader } from "./widgets/goal-header";
@@ -12,8 +11,6 @@ export function GoalContent() {
         activeGoalIds,
         goalToDelete,
         setGoalToDelete,
-        toast,
-        dismissToast,
         handleActivateGoal,
         handleConfirmDelete,
     } = useGoal();
@@ -87,16 +84,6 @@ export function GoalContent() {
                         </div>
                     </div>
                 </div>
-            )}
-
-            {/* Toast Notifikasi */}
-            {toast && (
-                <Toast
-                    type={toast.type}
-                    message={toast.message}
-                    onClose={dismissToast}
-                    className="fixed right-5 bottom-5 z-50 min-w-[260px] font-mono"
-                />
             )}
         </div>
     );

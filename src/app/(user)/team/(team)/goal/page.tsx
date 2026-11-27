@@ -1,10 +1,7 @@
-// import { GoalContent } from '@/components/customs/(tim)/goal/goal-content';
-// import React from 'react'
+import { GoalContent } from "@/components/customs/(tim)/goal/goal-content"
 
-// export default function Goal() {
-//     return (
-//         <div>
-//             <GoalContent />
-//         </div>
-//     )
-// }
+export default function TeamGoalPage() {
+    return <GoalContent />
+}
+
+//Bismillah bisa
