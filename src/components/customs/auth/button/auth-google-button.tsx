@@ -18,7 +18,7 @@ export default function AuthGoogleButton() {
         <Button
             type='button'
             // onPress={handleGoogleLogin}
-            className='h-12 w-full border-black border-[1.5px] rounded-md bg-accent text-sm font-medium text-foreground transition-colors hover:bg-muted shadow-[2px_3px_0px_0px_#000000]'
+            className='p-5 w-full border-black border-[1.5px] rounded-md bg-accent text-sm font-medium text-foreground transition-colors hover:bg-muted shadow-[2px_3px_0px_0px_#000000]'
         >
             <svg viewBox='0 0 24 24' width='18' height='18' xmlns='http://www.w3.org/2000/svg'>
                 <path d='M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z' fill='#4285F4' />

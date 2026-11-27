@@ -34,16 +34,16 @@ export default function SignUpForm() {
     };
 
     return (
-        <main className="flex min-h-screen items-center justify-center bg-[#ece9e2] p-4 font-sans text-[#111111]">
-            <Card className="w-full max-w-[440px] rounded-xl border-[1.5px] border-black bg-[#faf9f6] p-7 shadow-[5px_5px_0px_0px_#000000]">
-                <Card.Header className="p-0 pb-6">
-                    <Card.Title className="font-mono text-[26px] font-bold tracking-tight text-black">
+        <main className="flex max-h-full w-full max-w-[440px] flex-col pb-1.5 pr-1.5 font-sans text-[#111111]">
+            <Card className="flex min-h-0 w-full flex-col rounded-xl border-[1.5px] border-black bg-[#faf9f6] shadow-[5px_5px_0px_0px_#000000]">
+                <Card.Header className="shrink-0 px-6 pt-6 pb-4">
+                    <Card.Title className="font-mono text-2xl font-bold tracking-tight text-black">
                         Daftar ke Aixel
                     </Card.Title>
                 </Card.Header>
 
-                <Card.Content className="p-0">
-                    <Form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <Card.Content className="min-h-0 flex-1 overflow-y-auto px-6 pb-6 pt-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <Form onSubmit={handleSubmit} className="flex flex-col gap-4">
                         <TextFieldInput
                             name="fullName"
                             type="text"
@@ -85,7 +85,7 @@ export default function SignUpForm() {
                         <AuthSubmitButton label="Daftar" />
                     </Form>
 
-                    <div className="mt-5 flex items-center justify-center text-xs text-neutral-700">
+                    <div className="mt-4 flex items-center justify-center text-xs text-neutral-700">
                         <span>
                             Sudah punya akun?{" "}
                             <Link
@@ -97,7 +97,7 @@ export default function SignUpForm() {
                         </span>
                     </div>
 
-                    <div className="my-5 flex items-center gap-4">
+                    <div className="my-4 flex items-center gap-4">
                         <div className="h-[1px] flex-1 bg-neutral-400" />
                         <span className="font-mono text-xs text-neutral-600">Atau</span>
                         <div className="h-[1px] flex-1 bg-neutral-400" />
