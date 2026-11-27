@@ -4,4 +4,4 @@ export default function TeamGoalPage() {
     return <GoalContent />
 }
 
-
+//Bismillah bisa
