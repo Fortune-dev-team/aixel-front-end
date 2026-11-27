@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, Form, Link } from "@heroui/react";
 import { TextFieldInput } from "../input/text-field-input";
 import { AuthSubmitButton } from "../button/auth-submit-button";
@@ -8,14 +9,12 @@ import PasswordFieldInput from "../input/password-field-input";
 import AuthGoogleButton from "../button/auth-google-button";
 
 export default function LoginPage() {
+    const router = useRouter();
     const [email, setEmail] = useState("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const password = formData.get("password") as string;
-
-        console.log("Submitting:", { email, password });
+        router.push("/team/dashboard");
     };
 
     return (
@@ -28,7 +27,10 @@ export default function LoginPage() {
                 </Card.Header>
 
                 <Card.Content className="p-0">
-                    <Form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
+                    <Form
+                        onSubmit={handleSubmit}
+                        className="flex flex-col gap-3.5"
+                    >
                         <TextFieldInput
                             name="email"
                             type="email"
@@ -46,7 +48,10 @@ export default function LoginPage() {
                             placeholder="Masukkan kata sandi"
                         />
 
-                        <AuthSubmitButton />
+                        <AuthSubmitButton
+                            type="button"
+                            onPress={() => router.push("/team/dashboard")}
+                        />
                     </Form>
 
                     <div className="mt-4 flex items-center justify-between text-xs text-neutral-700">
@@ -74,7 +79,7 @@ export default function LoginPage() {
                         <div className="h-[1px] flex-1 bg-neutral-400" />
                     </div>
 
-                    <AuthGoogleButton />
+                    <AuthGoogleButton onPress={() => router.push("/team/dashboard")} />
                 </Card.Content>
             </Card>
         </main>
