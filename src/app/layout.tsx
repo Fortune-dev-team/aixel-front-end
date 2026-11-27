@@ -25,7 +25,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="id" className={`${jetbrains.variable} ${openSans.variable}`}>
+        <html lang="id" className={`${jetbrains.variable} ${openSans.variable} scroll-smooth`}>
             <body>{children}</body>
         </html>
     );

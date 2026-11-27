@@ -20,8 +20,9 @@ import { cn } from "@/lib/utils"
 import { TEAM_NAV_GROUPS } from "./constants"
 import type { TeamSidebarProps } from "./interfaces"
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { LogoutModal } from "@/components/customs/keluar/logout-modal";
+// import { LogoutModal } from "@/components/customs/keluar/logout-modal";
 
 export function TeamSidebar({ onLogout }: TeamSidebarProps) {
     const pathname = usePathname()
@@ -43,27 +44,19 @@ export function TeamSidebar({ onLogout }: TeamSidebarProps) {
             {/* Brand Header */}
             <SidebarHeader className="bg-[#FDFCFA] px-4 pt-6 pb-3">
                 <Link
-                    href="/team/dashboard"
-                    className="flex items-center gap-2.5 px-1 select-none"
-                >
-                    <span
-                        aria-hidden="true"
-                        className="grid size-6 shrink-0 grid-cols-3 grid-rows-3 gap-0.5 rounded-[3px] border border-[#0A0A0A] bg-[#FDFCFA] p-0.5"
-                    >
-                        <span className="bg-[#0A0A0A]" />
-                        <span className="bg-transparent" />
-                        <span className="bg-[#0A0A0A]" />
-                        <span className="bg-transparent" />
-                        <span className="bg-[#0A0A0A]" />
-                        <span className="bg-transparent" />
-                        <span className="bg-[#0A0A0A]" />
-                        <span className="bg-transparent" />
-                        <span className="bg-[#0A0A0A]" />
-                    </span>
-                    <span className="font-heading text-lg font-extrabold tracking-tight text-[#0A0A0A]">
-                        Aixel
-                    </span>
-                </Link>
+                href="/team/dashboard"
+                className="flex items-center gap-2"
+            >
+                <Image
+                    src="/assets/icon/logo-dark.svg"
+                    alt="Aixel Logo"
+                    width={24}
+                    height={24}
+                />
+                <span className="font-mono text-lg font-bold  text-[#111111]">
+                    Aixel
+                </span>
+            </Link>
                 <Separator className="mt-3 bg-[#0A0A0A]/30" />
             </SidebarHeader>
 

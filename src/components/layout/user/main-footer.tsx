@@ -2,8 +2,6 @@ import Link from "next/link";
 import Checkers from "@/components/customs/landing-page/chekers/chekers";
 import Image from "next/image";
 
-const pixels = [1, 0, 1, 0, 2, 0, 1, 0, 1];
-
 export default function Footer() {
     return (
         <footer className="w-full pt-10">

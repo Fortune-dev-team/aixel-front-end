@@ -24,7 +24,7 @@ const steps = [
 
 export default function FlowSection() {
     return (
-        <section className="py-16 px-16">
+        <section id="flow"className="py-16 px-16">
             <div className=" flex flex-col gap-6">
                 <h1 className="text-2xl font-bold text-black">Siklus belajar</h1>
                 <div className="grid grid-cols-4 gap-4">
