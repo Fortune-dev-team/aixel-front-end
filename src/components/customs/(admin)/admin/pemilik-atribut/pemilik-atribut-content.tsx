@@ -37,6 +37,33 @@ const INITIAL_DATA: AttributeOwnerItem[] = [
         berlakuSampai: "01 Okt 2027",
         statusMentor: "Belum diundang",
     },
+    {
+        id: "3",
+        anggota: "Rani Kusuma",
+        atribut: "Problem Solving",
+        asal: "Ditetapkan Admin",
+        lulus: "12 Nov 2025",
+        berlakuSampai: "12 Nov 2026",
+        statusMentor: "Aktif",
+    },
+    {
+        id: "4",
+        anggota: "Fajar Nugroho",
+        atribut: "Kepemimpinan",
+        asal: "Lulus wawancara",
+        lulus: "20 Nov 2025",
+        berlakuSampai: "20 Nov 2026",
+        statusMentor: "Belum diundang",
+    },
+    {
+        id: "5",
+        anggota: "Tia Anggraini",
+        atribut: "Komunikasi",
+        asal: "Ditetapkan Admin",
+        lulus: "05 Jan 2026",
+        berlakuSampai: "05 Jan 2027",
+        statusMentor: "Aktif",
+    },
 ];
 
 export function PemilikAtributContent() {
@@ -45,6 +72,7 @@ export function PemilikAtributContent() {
     const [filterStatus, setFilterStatus] = useState("");
     const [isAssignOpen, setIsAssignOpen] = useState(false);
     const [revokeTarget, setRevokeTarget] = useState<AttributeOwnerItem | null>(null);
+    const [page, setPage] = useState(1);
 
     const filteredRows = rows.filter((row) => {
         const matchAtribut =
@@ -55,6 +83,17 @@ export function PemilikAtributContent() {
             row.statusMentor.toLowerCase().replace(/\s+/g, "-") === filterStatus;
         return matchAtribut && matchStatus;
     });
+
+    const ITEMS_PER_PAGE = 3;
+    const totalPages = Math.ceil(filteredRows.length / ITEMS_PER_PAGE);
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const paginatedData = filteredRows.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
 
     const handleAssign = ({ anggota, atribut }: { anggota: string; atribut: string }) => {
         setRows((prev) => [
@@ -218,8 +257,47 @@ export function PemilikAtributContent() {
             <DataTable<AttributeOwnerItem>
                 ariaLabel="Tabel Pemilik Atribut"
                 columns={columns}
-                rows={filteredRows}
+                rows={paginatedData}
             />
+
+            {/* Pagination Controls */}
+            <div className="flex justify-end items-center gap-2 pt-2">
+                <button
+                    disabled={page === 1}
+                    onClick={() => handlePageChange(page - 1)}
+                    className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                        page === 1
+                            ? "bg-[#d4d4d8] text-zinc-600 cursor-not-allowed opacity-80"
+                            : "bg-white text-black hover:bg-zinc-100"
+                    }`}
+                >
+                    Sebelumnya
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                    <button
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                            page === pageNum
+                                ? "bg-[#ff4a1c] text-white shadow-[2px_2px_0_0_#111111]"
+                                : "bg-white text-black hover:bg-zinc-100"
+                        }`}
+                    >
+                        {pageNum}
+                    </button>
+                ))}
+                <button
+                    disabled={page === totalPages}
+                    onClick={() => handlePageChange(page + 1)}
+                    className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                        page === totalPages
+                            ? "bg-[#d4d4d8] text-zinc-600 cursor-not-allowed opacity-80"
+                            : "bg-white text-black hover:bg-zinc-100"
+                    }`}
+                >
+                    Berikutnya
+                </button>
+            </div>
 
             <TetapkanPemilikModal
                 isOpen={isAssignOpen}

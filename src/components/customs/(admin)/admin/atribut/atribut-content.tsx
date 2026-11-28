@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { DataTable, DataTableColumn } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "../widgets/confirm-modal";
+import { TablePagination } from "../widgets/table-pagination";
 import { TambahAtributModal } from "./modals/tambah-atribut-modal";
 
 interface AtributItem {
@@ -40,8 +41,17 @@ const INITIAL_DATA: AtributItem[] = [
 
 export function AtributContent() {
     const [rows, setRows] = useState<AtributItem[]>(INITIAL_DATA);
+    const [page, setPage] = useState(1);
     const [isAddOpen, setIsAddOpen] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState<AtributItem | null>(null);
+
+    const ITEMS_PER_PAGE = 5;
+    const totalPages = Math.max(1, Math.ceil(rows.length / ITEMS_PER_PAGE));
+    const currentPage = Math.min(page, totalPages);
+    const paginatedData = rows.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
 
     const handleAddAtribut = ({ nama, kategori }: { nama: string; kategori: string }) => {
         setRows((prev) => [
@@ -102,7 +112,13 @@ export function AtributContent() {
             <DataTable<AtributItem>
                 ariaLabel="Tabel Kelola Atribut"
                 columns={columns}
-                rows={rows}
+                rows={paginatedData}
+            />
+
+            <TablePagination
+                page={currentPage}
+                totalPages={totalPages}
+                onPageChange={setPage}
             />
 
             <TambahAtributModal

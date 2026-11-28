@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { DataTable, DataTableColumn } from "@/components/ui/data-table";
 import { Chip } from "@/components/ui/Chip";
+import { TablePagination } from "../widgets/table-pagination";
 
 interface SebaranAtributRow {
     id: string;
@@ -91,9 +92,51 @@ const PROGRES_ANGGOTA_DATA: ProgresAnggotaRow[] = [
         goal: "Kepemimpinan",
         posisi: "Level 3, menunggu jadwal",
     },
+    {
+        id: "4",
+        anggota: "Dewi Sartika",
+        goal: "Komunikasi",
+        posisi: "Level 1",
+    },
+    {
+        id: "5",
+        anggota: "Ahmad Fauzi",
+        goal: "Problem Solving",
+        posisi: "Level 3",
+    },
+    {
+        id: "6",
+        anggota: "Siti Nurhaliza",
+        goal: "Kepemimpinan",
+        posisi: "Level 2",
+    },
+    {
+        id: "7",
+        anggota: "Bambang Susilo",
+        goal: "Komunikasi",
+        posisi: "Level 1",
+    },
+    {
+        id: "8",
+        anggota: "Rina Marlina",
+        goal: "Problem Solving",
+        posisi: "Level 2",
+    },
 ];
 
 export function DashboardContent() {
+    const [page, setPage] = useState(1);
+    const ITEMS_PER_PAGE = 3;
+    const totalPages = Math.ceil(PROGRES_ANGGOTA_DATA.length / ITEMS_PER_PAGE);
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const paginatedData = PROGRES_ANGGOTA_DATA.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
+
     return (
         <div className="flex flex-col gap-8 max-w-full mx-auto">
             {/* Page Header */}
@@ -150,7 +193,14 @@ export function DashboardContent() {
                 <DataTable<ProgresAnggotaRow>
                     ariaLabel="Tabel Progres Anggota"
                     columns={PROGRES_ANGGOTA_COLUMNS}
-                    rows={PROGRES_ANGGOTA_DATA}
+                    rows={paginatedData}
+                />
+
+                {/* Pagination Controls */}
+                <TablePagination
+                    page={page}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
                 />
             </div>
         </div>

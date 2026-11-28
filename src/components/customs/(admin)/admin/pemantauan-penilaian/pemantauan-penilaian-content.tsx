@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { DataTable, DataTableColumn } from "@/components/ui/data-table";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ui/progressbar";
+import { TablePagination } from "../widgets/table-pagination";
 
 interface UncertainCaseItem {
     id: string;
@@ -95,6 +96,24 @@ const CONSISTENCY_DATA: ConsistencyItem[] = [
 ];
 
 export function PemantauanPenilaianContent() {
+    const [uncertainPage, setUncertainPage] = useState(1);
+    const [consistencyPage, setConsistencyPage] = useState(1);
+
+    const ITEMS_PER_PAGE = 5;
+    const uncertainTotalPages = Math.max(1, Math.ceil(UNCERTAIN_DATA.length / ITEMS_PER_PAGE));
+    const currentUncertainPage = Math.min(uncertainPage, uncertainTotalPages);
+    const paginatedUncertainData = UNCERTAIN_DATA.slice(
+        (currentUncertainPage - 1) * ITEMS_PER_PAGE,
+        currentUncertainPage * ITEMS_PER_PAGE
+    );
+
+    const consistencyTotalPages = Math.max(1, Math.ceil(CONSISTENCY_DATA.length / ITEMS_PER_PAGE));
+    const currentConsistencyPage = Math.min(consistencyPage, consistencyTotalPages);
+    const paginatedConsistencyData = CONSISTENCY_DATA.slice(
+        (currentConsistencyPage - 1) * ITEMS_PER_PAGE,
+        currentConsistencyPage * ITEMS_PER_PAGE
+    );
+
     return (
         <div className="flex flex-col gap-8 max-w-7xl mx-auto">
             {/* Header */}
@@ -162,7 +181,12 @@ export function PemantauanPenilaianContent() {
                 <DataTable<UncertainCaseItem>
                     ariaLabel="Tabel Kasus Tidak Pasti"
                     columns={UNCERTAIN_COLUMNS}
-                    rows={UNCERTAIN_DATA}
+                    rows={paginatedUncertainData}
+                />
+                <TablePagination
+                    page={currentUncertainPage}
+                    totalPages={uncertainTotalPages}
+                    onPageChange={setUncertainPage}
                 />
             </div>
 
@@ -174,7 +198,12 @@ export function PemantauanPenilaianContent() {
                 <DataTable<ConsistencyItem>
                     ariaLabel="Tabel Konsistensi"
                     columns={CONSISTENCY_COLUMNS}
-                    rows={CONSISTENCY_DATA}
+                    rows={paginatedConsistencyData}
+                />
+                <TablePagination
+                    page={currentConsistencyPage}
+                    totalPages={consistencyTotalPages}
+                    onPageChange={setConsistencyPage}
                 />
             </div>
         </div>

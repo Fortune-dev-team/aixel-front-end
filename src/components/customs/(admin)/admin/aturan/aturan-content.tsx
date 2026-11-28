@@ -21,7 +21,7 @@ export function AturanContent() {
             </div>
 
             {/* Form Card */}
-            <div className="max-w-xl rounded-2xl border-2 border-black bg-white p-6 shadow-[4px_4px_0_0_#111111]">
+            <div className="max-w-full rounded-2xl border-2 border-black bg-white p-6 shadow-[4px_4px_0_0_#111111]">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();

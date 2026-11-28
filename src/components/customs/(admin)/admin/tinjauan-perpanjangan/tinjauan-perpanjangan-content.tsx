@@ -22,11 +22,51 @@ const INITIAL_DATA: ExtensionReviewItem[] = [
         bukti: "laporan-proyek-q3.pdf",
         status: "Menunggu tinjauan",
     },
+    {
+        id: "2",
+        anggota: "Nadia Putri",
+        atribut: "Komunikasi",
+        bukti: "portofolio-komunikasi.pdf",
+        status: "Menunggu tinjauan",
+    },
+    {
+        id: "3",
+        anggota: "Budi Santoso",
+        atribut: "Problem Solving",
+        bukti: "studi-kasus-revamp.pdf",
+        status: "Diterima",
+    },
+    {
+        id: "4",
+        anggota: "Tia Anggraini",
+        atribut: "Kepemimpinan",
+        bukti: "laporan-kepemimpinan.pdf",
+        status: "Ditolak",
+    },
+    {
+        id: "5",
+        anggota: "Fajar Nugroho",
+        atribut: "Komunikasi",
+        bukti: "bukti-presentasi.pdf",
+        status: "Menunggu tinjauan",
+    },
 ];
 
 export function TinjauanPerpanjanganContent() {
     const [rows, setRows] = useState<ExtensionReviewItem[]>(INITIAL_DATA);
     const [rejectTarget, setRejectTarget] = useState<ExtensionReviewItem | null>(null);
+    const [page, setPage] = useState(1);
+
+    const ITEMS_PER_PAGE = 3;
+    const totalPages = Math.ceil(rows.length / ITEMS_PER_PAGE);
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const paginatedData = rows.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
 
     const handleApprove = (id: string) => {
         setRows((prev) =>
@@ -114,8 +154,47 @@ export function TinjauanPerpanjanganContent() {
             <DataTable<ExtensionReviewItem>
                 ariaLabel="Tabel Tinjauan Perpanjangan"
                 columns={columns}
-                rows={rows}
+                rows={paginatedData}
             />
+
+            {/* Pagination Controls */}
+            <div className="flex justify-end items-center gap-2 pt-2">
+                <button
+                    disabled={page === 1}
+                    onClick={() => handlePageChange(page - 1)}
+                    className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                        page === 1
+                            ? "bg-[#d4d4d8] text-zinc-600 cursor-not-allowed opacity-80"
+                            : "bg-white text-black hover:bg-zinc-100"
+                    }`}
+                >
+                    Sebelumnya
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                    <button
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                            page === pageNum
+                                ? "bg-[#ff4a1c] text-white shadow-[2px_2px_0_0_#111111]"
+                                : "bg-white text-black hover:bg-zinc-100"
+                        }`}
+                    >
+                        {pageNum}
+                    </button>
+                ))}
+                <button
+                    disabled={page === totalPages}
+                    onClick={() => handlePageChange(page + 1)}
+                    className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                        page === totalPages
+                            ? "bg-[#d4d4d8] text-zinc-600 cursor-not-allowed opacity-80"
+                            : "bg-white text-black hover:bg-zinc-100"
+                    }`}
+                >
+                    Berikutnya
+                </button>
+            </div>
 
             <ReasonModal
                 isOpen={Boolean(rejectTarget)}

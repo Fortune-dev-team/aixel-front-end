@@ -36,9 +36,21 @@ export function SumberMateriContent() {
     const [isAddModulOpen, setIsAddModulOpen] = useState(false);
     const [isAddVideoArtikelOpen, setIsAddVideoArtikelOpen] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState<MateriItem | null>(null);
+    const [page, setPage] = useState(1);
 
     const atributOptions = useMemo(() => Array.from(new Set(rows.map((r) => r.atribut))), [rows]);
     const filtered = atribut ? rows.filter((r) => r.atribut === atribut) : rows;
+
+    const ITEMS_PER_PAGE = 5;
+    const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const paginatedData = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
 
     const setAktif = (id: string, aktif: boolean) =>
         setRows((list) => list.map((r) => (r.id === id ? { ...r, aktif } : r)));
@@ -148,7 +160,10 @@ export function SumberMateriContent() {
                     <select
                         id="filter-atribut"
                         value={atribut}
-                        onChange={(e) => setAtribut(e.target.value)}
+                        onChange={(e) => {
+                            setAtribut(e.target.value);
+                            setPage(1);
+                        }}
                         className="h-10 w-64 rounded-lg border-[1.5px] border-black bg-[#fdfcfa] px-3 font-mono text-xs text-zinc-600 outline-none focus:border-[#ff4a1c]"
                     >
                         <option value="">Semua atribut</option>
@@ -169,7 +184,46 @@ export function SumberMateriContent() {
                 </div>
             </div>
 
-            <DataTable<MateriItem> ariaLabel="Tabel Sumber Materi" columns={columns} rows={filtered} />
+            <DataTable<MateriItem> ariaLabel="Tabel Sumber Materi" columns={columns} rows={paginatedData} />
+
+            {/* Pagination Controls */}
+            <div className="flex justify-end items-center gap-2 pt-2">
+                <button
+                    disabled={page === 1}
+                    onClick={() => handlePageChange(page - 1)}
+                    className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                        page === 1
+                            ? "bg-[#d4d4d8] text-zinc-600 cursor-not-allowed opacity-80"
+                            : "bg-white text-black hover:bg-zinc-100"
+                    }`}
+                >
+                    Sebelumnya
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                    <button
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                            page === pageNum
+                                ? "bg-[#ff4a1c] text-white shadow-[2px_2px_0_0_#111111]"
+                                : "bg-white text-black hover:bg-zinc-100"
+                        }`}
+                    >
+                        {pageNum}
+                    </button>
+                ))}
+                <button
+                    disabled={page === totalPages}
+                    onClick={() => handlePageChange(page + 1)}
+                    className={`rounded-lg border-2 border-black px-3 py-1.5 font-mono text-xs font-bold transition-all ${
+                        page === totalPages
+                            ? "bg-[#d4d4d8] text-zinc-600 cursor-not-allowed opacity-80"
+                            : "bg-white text-black hover:bg-zinc-100"
+                    }`}
+                >
+                    Berikutnya
+                </button>
+            </div>
 
             <TambahModulModal
                 isOpen={isAddModulOpen}

@@ -5,6 +5,7 @@ import { DataTable, DataTableColumn } from "@/components/ui/data-table";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "../widgets/confirm-modal";
+import { TablePagination } from "../widgets/table-pagination";
 import { EditRubrikModal } from "./modals/edit-rubrik-modal";
 
 interface RubrikItem {
@@ -47,8 +48,17 @@ const INITIAL_DATA: RubrikItem[] = [
 
 export function RubrikContent() {
     const [rows, setRows] = useState<RubrikItem[]>(INITIAL_DATA);
+    const [page, setPage] = useState(1);
     const [editTarget, setEditTarget] = useState<RubrikItem | null>(null);
     const [approveTarget, setApproveTarget] = useState<RubrikItem | null>(null);
+
+    const ITEMS_PER_PAGE = 5;
+    const totalPages = Math.max(1, Math.ceil(rows.length / ITEMS_PER_PAGE));
+    const currentPage = Math.min(page, totalPages);
+    const paginatedData = rows.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
 
     const handleSaveDraft = (draft: string) => {
         if (!editTarget) return;
@@ -174,7 +184,13 @@ export function RubrikContent() {
             <DataTable<RubrikItem>
                 ariaLabel="Tabel Kelola Rubrik"
                 columns={columns}
-                rows={rows}
+                rows={paginatedData}
+            />
+
+            <TablePagination
+                page={currentPage}
+                totalPages={totalPages}
+                onPageChange={setPage}
             />
 
             <EditRubrikModal
