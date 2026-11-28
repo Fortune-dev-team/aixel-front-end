@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { DataTable, DataTableColumn } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/formfield";
+import { ConfirmModal } from "../widgets/confirm-modal";
 
 interface UnresponsiveMentorItem {
     id: string;
@@ -12,28 +13,7 @@ interface UnresponsiveMentorItem {
     menunggu: string;
 }
 
-const COLUMNS: DataTableColumn<UnresponsiveMentorItem>[] = [
-    { key: "mentor", label: "Mentor", align: "left" },
-    { key: "permintaan", label: "Permintaan", align: "left" },
-    { key: "menunggu", label: "Menunggu", align: "left" },
-    {
-        key: "id",
-        label: "Aksi",
-        align: "left",
-        render: () => (
-            <div className="flex items-center gap-2">
-                <Button variant="white" size="sm">
-                    Kirim Pengingat
-                </Button>
-                <Button variant="coral" size="sm">
-                    Alihkan
-                </Button>
-            </div>
-        ),
-    },
-];
-
-const DATA: UnresponsiveMentorItem[] = [
+const INITIAL_DATA: UnresponsiveMentorItem[] = [
     {
         id: "1",
         mentor: "Nadia Putri",
@@ -43,6 +23,40 @@ const DATA: UnresponsiveMentorItem[] = [
 ];
 
 export function IntervensiContent() {
+    const [rows, setRows] = useState<UnresponsiveMentorItem[]>(INITIAL_DATA);
+    const [reassignTarget, setReassignTarget] = useState<UnresponsiveMentorItem | null>(null);
+
+    const handleReassign = () => {
+        if (!reassignTarget) return;
+        setRows((prev) => prev.filter((item) => item.id !== reassignTarget.id));
+        setReassignTarget(null);
+    };
+
+    const columns: DataTableColumn<UnresponsiveMentorItem>[] = [
+        { key: "mentor", label: "Mentor", align: "left" },
+        { key: "permintaan", label: "Permintaan", align: "left" },
+        { key: "menunggu", label: "Menunggu", align: "left" },
+        {
+            key: "id",
+            label: "Aksi",
+            align: "left",
+            render: (row) => (
+                <div className="flex items-center gap-2">
+                    <Button variant="white" size="sm">
+                        Kirim Pengingat
+                    </Button>
+                    <Button
+                        variant="coral"
+                        size="sm"
+                        onPress={() => setReassignTarget(row)}
+                    >
+                        Alihkan
+                    </Button>
+                </div>
+            ),
+        },
+    ];
+
     return (
         <div className="flex flex-col gap-8 max-w-7xl mx-auto">
             {/* Header */}
@@ -58,8 +72,8 @@ export function IntervensiContent() {
             {/* Table */}
             <DataTable<UnresponsiveMentorItem>
                 ariaLabel="Tabel Mentor Tidak Merespons"
-                columns={COLUMNS}
-                rows={DATA}
+                columns={columns}
+                rows={rows}
             />
 
             {/* Form Section */}
@@ -107,6 +121,18 @@ export function IntervensiContent() {
                     </form>
                 </div>
             </div>
+
+            <ConfirmModal
+                isOpen={Boolean(reassignTarget)}
+                onOpenChange={(open) => {
+                    if (!open) setReassignTarget(null);
+                }}
+                title="Konfirmasi"
+                message="Alihkan permintaan ke mentor lain?"
+                confirmLabel="Ya, lanjutkan"
+                confirmVariant="coral"
+                onConfirm={handleReassign}
+            />
         </div>
     );
 }

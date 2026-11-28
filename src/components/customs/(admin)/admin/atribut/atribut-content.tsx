@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { DataTable, DataTableColumn } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
+import { ConfirmModal } from "../widgets/confirm-modal";
+import { TambahAtributModal } from "./modals/tambah-atribut-modal";
 
 interface AtributItem {
     id: string;
@@ -12,24 +14,7 @@ interface AtributItem {
     indikator: string;
 }
 
-const COLUMNS: DataTableColumn<AtributItem>[] = [
-    { key: "atribut", label: "Atribut", align: "left" },
-    { key: "kategori", label: "Kategori", align: "left" },
-    { key: "level", label: "Level", align: "left" },
-    { key: "indikator", label: "Indikator", align: "left" },
-    {
-        key: "id",
-        label: "Aksi",
-        align: "left",
-        render: () => (
-            <Button variant="red" size="sm">
-                Hapus
-            </Button>
-        ),
-    },
-];
-
-const DATA: AtributItem[] = [
+const INITIAL_DATA: AtributItem[] = [
     {
         id: "1",
         atribut: "Komunikasi",
@@ -54,6 +39,46 @@ const DATA: AtributItem[] = [
 ];
 
 export function AtributContent() {
+    const [rows, setRows] = useState<AtributItem[]>(INITIAL_DATA);
+    const [isAddOpen, setIsAddOpen] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState<AtributItem | null>(null);
+
+    const handleAddAtribut = ({ nama, kategori }: { nama: string; kategori: string }) => {
+        setRows((prev) => [
+            ...prev,
+            {
+                id: String(Date.now()),
+                atribut: nama,
+                kategori,
+                level: 3,
+                indikator: "L1 konseptual · L2 studi kasus · L3 wawancara",
+            },
+        ]);
+    };
+
+    const handleDeleteAtribut = () => {
+        if (!deleteTarget) return;
+        setRows((prev) => prev.filter((item) => item.id !== deleteTarget.id));
+        setDeleteTarget(null);
+    };
+
+    const columns: DataTableColumn<AtributItem>[] = [
+        { key: "atribut", label: "Atribut", align: "left" },
+        { key: "kategori", label: "Kategori", align: "left" },
+        { key: "level", label: "Level", align: "left" },
+        { key: "indikator", label: "Indikator", align: "left" },
+        {
+            key: "id",
+            label: "Aksi",
+            align: "left",
+            render: (row) => (
+                <Button variant="red" size="sm" onPress={() => setDeleteTarget(row)}>
+                    Hapus
+                </Button>
+            ),
+        },
+    ];
+
     return (
         <div className="flex flex-col gap-6 max-w-7xl mx-auto">
             {/* Header */}
@@ -68,7 +93,7 @@ export function AtributContent() {
 
             {/* Action Toolbar */}
             <div>
-                <Button variant="coral" size="md">
+                <Button variant="coral" size="md" onPress={() => setIsAddOpen(true)}>
                     Tambah atribut
                 </Button>
             </div>
@@ -76,8 +101,26 @@ export function AtributContent() {
             {/* Table */}
             <DataTable<AtributItem>
                 ariaLabel="Tabel Kelola Atribut"
-                columns={COLUMNS}
-                rows={DATA}
+                columns={columns}
+                rows={rows}
+            />
+
+            <TambahAtributModal
+                isOpen={isAddOpen}
+                onOpenChange={setIsAddOpen}
+                onSubmit={handleAddAtribut}
+            />
+
+            <ConfirmModal
+                isOpen={Boolean(deleteTarget)}
+                onOpenChange={(open) => {
+                    if (!open) setDeleteTarget(null);
+                }}
+                title="Konfirmasi"
+                message={`Hapus atribut ${deleteTarget?.atribut ?? ""}?`}
+                confirmLabel="Hapus"
+                confirmVariant="red"
+                onConfirm={handleDeleteAtribut}
             />
         </div>
     );

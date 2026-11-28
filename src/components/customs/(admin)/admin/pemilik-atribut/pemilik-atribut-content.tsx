@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { DataTable, DataTableColumn } from "@/components/ui/data-table";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/button";
+import { ReasonModal } from "../widgets/reason-modal";
+import { TetapkanPemilikModal } from "./modals/tetapkan-pemilik-modal";
 
 interface AttributeOwnerItem {
     id: string;
@@ -16,50 +18,7 @@ interface AttributeOwnerItem {
     statusMentor: "Aktif" | "Belum diundang";
 }
 
-const COLUMNS: DataTableColumn<AttributeOwnerItem>[] = [
-    { key: "anggota", label: "Anggota", align: "left" },
-    { key: "atribut", label: "Atribut", align: "left" },
-    { key: "asal", label: "Asal", align: "left" },
-    { key: "lulus", label: "Lulus", align: "left" },
-    { key: "berlakuSampai", label: "Berlaku sampai", align: "left" },
-    {
-        key: "sertifikat",
-        label: "Sertifikat",
-        align: "left",
-        render: () => (
-            <Button variant="white" size="sm">
-                Lihat
-            </Button>
-        ),
-    },
-    {
-        key: "statusMentor",
-        label: "Status mentor",
-        align: "left",
-        render: (row) => (
-            <Chip variant={row.statusMentor === "Aktif" ? "green" : "neutral"}>
-                {row.statusMentor}
-            </Chip>
-        ),
-    },
-    {
-        key: "aksi",
-        label: "Aksi",
-        align: "left",
-        render: (row) =>
-            row.statusMentor === "Aktif" ? (
-                <Button variant="red" size="sm">
-                    Cabut status
-                </Button>
-            ) : (
-                <Button variant="coral" size="sm">
-                    Undang
-                </Button>
-            ),
-    },
-];
-
-const DATA: AttributeOwnerItem[] = [
+const INITIAL_DATA: AttributeOwnerItem[] = [
     {
         id: "1",
         anggota: "Budi Santoso",
@@ -81,6 +40,96 @@ const DATA: AttributeOwnerItem[] = [
 ];
 
 export function PemilikAtributContent() {
+    const [rows, setRows] = useState<AttributeOwnerItem[]>(INITIAL_DATA);
+    const [filterAtribut, setFilterAtribut] = useState("");
+    const [filterStatus, setFilterStatus] = useState("");
+    const [isAssignOpen, setIsAssignOpen] = useState(false);
+    const [revokeTarget, setRevokeTarget] = useState<AttributeOwnerItem | null>(null);
+
+    const filteredRows = rows.filter((row) => {
+        const matchAtribut =
+            !filterAtribut ||
+            row.atribut.toLowerCase().replace(/\s+/g, "-") === filterAtribut;
+        const matchStatus =
+            !filterStatus ||
+            row.statusMentor.toLowerCase().replace(/\s+/g, "-") === filterStatus;
+        return matchAtribut && matchStatus;
+    });
+
+    const handleAssign = ({ anggota, atribut }: { anggota: string; atribut: string }) => {
+        setRows((prev) => [
+            ...prev,
+            {
+                id: String(Date.now()),
+                anggota,
+                atribut,
+                asal: "Ditetapkan Admin",
+                lulus: "28 Nov 2026",
+                berlakuSampai: "28 Nov 2027",
+                statusMentor: "Belum diundang",
+            },
+        ]);
+    };
+
+    const handleRevoke = () => {
+        if (!revokeTarget) return;
+        setRows((prev) =>
+            prev.map((item) =>
+                item.id === revokeTarget.id
+                    ? { ...item, statusMentor: "Belum diundang" }
+                    : item
+            )
+        );
+        setRevokeTarget(null);
+    };
+
+    const columns: DataTableColumn<AttributeOwnerItem>[] = [
+        { key: "anggota", label: "Anggota", align: "left" },
+        { key: "atribut", label: "Atribut", align: "left" },
+        { key: "asal", label: "Asal", align: "left" },
+        { key: "lulus", label: "Lulus", align: "left" },
+        { key: "berlakuSampai", label: "Berlaku sampai", align: "left" },
+        {
+            key: "sertifikat",
+            label: "Sertifikat",
+            align: "left",
+            render: () => (
+                <Button variant="white" size="sm">
+                    Lihat
+                </Button>
+            ),
+        },
+        {
+            key: "statusMentor",
+            label: "Status mentor",
+            align: "left",
+            render: (row) => (
+                <Chip variant={row.statusMentor === "Aktif" ? "green" : "neutral"}>
+                    {row.statusMentor}
+                </Chip>
+            ),
+        },
+        {
+            key: "aksi",
+            label: "Aksi",
+            align: "left",
+            render: (row) =>
+                row.statusMentor === "Aktif" ? (
+                    <Button
+                        variant="red"
+                        size="sm"
+                        onPress={() => setRevokeTarget(row)}
+                    >
+                        Cabut status
+                    </Button>
+                ) : (
+                    <Button variant="coral" size="sm">
+                        Undang
+                    </Button>
+                ),
+        },
+    ];
+
     return (
         <div className="flex flex-col gap-6 max-w-7xl mx-auto">
             {/* Header */}
@@ -126,7 +175,11 @@ export function PemilikAtributContent() {
                             <label className="font-mono text-xs font-bold text-black">
                                 Atribut
                             </label>
-                            <select className="h-10 rounded-lg border-[1.5px] border-black bg-[#fdfcfa] px-3 font-mono text-xs text-zinc-600 outline-none focus:border-[#ff4a1c]">
+                            <select
+                                value={filterAtribut}
+                                onChange={(e) => setFilterAtribut(e.target.value)}
+                                className="h-10 rounded-lg border-[1.5px] border-black bg-[#fdfcfa] px-3 font-mono text-xs text-zinc-600 outline-none focus:border-[#ff4a1c]"
+                            >
                                 <option value="">Select option</option>
                                 <option value="komunikasi">Komunikasi</option>
                                 <option value="problem-solving">Problem Solving</option>
@@ -139,7 +192,11 @@ export function PemilikAtributContent() {
                             <label className="font-mono text-xs font-bold text-black">
                                 Status
                             </label>
-                            <select className="h-10 rounded-lg border-[1.5px] border-black bg-[#fdfcfa] px-3 font-mono text-xs text-zinc-600 outline-none focus:border-[#ff4a1c]">
+                            <select
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                                className="h-10 rounded-lg border-[1.5px] border-black bg-[#fdfcfa] px-3 font-mono text-xs text-zinc-600 outline-none focus:border-[#ff4a1c]"
+                            >
                                 <option value="">Select option</option>
                                 <option value="aktif">Aktif</option>
                                 <option value="belum-diundang">Belum diundang</option>
@@ -147,7 +204,11 @@ export function PemilikAtributContent() {
                         </div>
                     </div>
 
-                    <Button variant="coral" size="md">
+                    <Button
+                        variant="coral"
+                        size="md"
+                        onPress={() => setIsAssignOpen(true)}
+                    >
                         Tetapkan pemilik atribut
                     </Button>
                 </div>
@@ -156,8 +217,25 @@ export function PemilikAtributContent() {
             {/* Table */}
             <DataTable<AttributeOwnerItem>
                 ariaLabel="Tabel Pemilik Atribut"
-                columns={COLUMNS}
-                rows={DATA}
+                columns={columns}
+                rows={filteredRows}
+            />
+
+            <TetapkanPemilikModal
+                isOpen={isAssignOpen}
+                onOpenChange={setIsAssignOpen}
+                onSubmit={handleAssign}
+            />
+
+            <ReasonModal
+                isOpen={Boolean(revokeTarget)}
+                onOpenChange={(open) => {
+                    if (!open) setRevokeTarget(null);
+                }}
+                title={`Cabut status mentor ${revokeTarget?.anggota ?? ""}`}
+                subtitle="Alasan Anda akan dibaca team"
+                confirmLabel="Kirim pencabutan"
+                onSubmit={handleRevoke}
             />
         </div>
     );

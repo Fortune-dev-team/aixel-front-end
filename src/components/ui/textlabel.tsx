@@ -22,6 +22,7 @@ export interface TextLabelProps
 export function TextLabel({
     children,
     required = false,
+    isRequired,
     optional = false,
     optionalText = "(optional)",
     size,
@@ -31,7 +32,8 @@ export function TextLabel({
     return (
         <Label className={textLabel({ size, className })} {...props}>
             {children}
-            {required && <span className="ml-1 text-[#E5484D]">*</span>}
+            {/* ada * double(??) untuk sekarang di comment dulu */}
+            {/* {required && <span className="ml-1 text-[#E5484D]">*</span>} */}
             {optional && (
                 <span className="ml-1 font-sans font-normal text-[#6B6B6B]">{optionalText}</span>
             )}

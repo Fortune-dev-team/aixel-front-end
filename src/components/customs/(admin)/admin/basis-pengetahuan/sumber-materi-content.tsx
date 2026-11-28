@@ -4,6 +4,10 @@ import React, { useMemo, useState } from "react";
 import { DataTable, DataTableColumn } from "@/components/ui/data-table";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/button";
+import { Toggle } from "@/components/ui/toggle";
+import { ConfirmModal } from "../widgets/confirm-modal";
+import { TambahModulModal } from "./modals/tambah-modul-modal";
+import { TambahVideoArtikelModal } from "./modals/tambah-video-artikel-modal";
 
 type Jenis = "Modul" | "Video" | "Artikel";
 
@@ -26,37 +30,66 @@ const INITIAL_DATA: MateriItem[] = [
     { id: "6", judul: "Dasar Kepemimpinan", jenis: "Artikel", atribut: "Kepemimpinan", sumber: "link", aktif: true },
 ];
 
-function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
-    return (
-        <button
-            type="button"
-            role="switch"
-            aria-checked={checked}
-            aria-label={label}
-            onClick={() => onChange(!checked)}
-            className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full border-2 border-black transition-colors ${
-                checked ? "bg-[#ff4a1c]" : "bg-[#f0ede6]"
-            }`}
-        >
-            <span
-                className={`absolute h-4 w-4 rounded-full border-2 border-black bg-white transition-all ${
-                    checked ? "right-0.5" : "left-0.5"
-                }`}
-            />
-        </button>
-    );
-}
-
 export function SumberMateriContent() {
     const [rows, setRows] = useState<MateriItem[]>(INITIAL_DATA);
     const [atribut, setAtribut] = useState("");
+    const [isAddModulOpen, setIsAddModulOpen] = useState(false);
+    const [isAddVideoArtikelOpen, setIsAddVideoArtikelOpen] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState<MateriItem | null>(null);
 
-    const atributOptions = useMemo(() => Array.from(new Set(INITIAL_DATA.map((r) => r.atribut))), []);
+    const atributOptions = useMemo(() => Array.from(new Set(rows.map((r) => r.atribut))), [rows]);
     const filtered = atribut ? rows.filter((r) => r.atribut === atribut) : rows;
 
     const setAktif = (id: string, aktif: boolean) =>
         setRows((list) => list.map((r) => (r.id === id ? { ...r, aktif } : r)));
-    const remove = (id: string) => setRows((list) => list.filter((r) => r.id !== id));
+
+    const handleAddModul = ({ judul, atribut: attr, fileName }: { judul: string; atribut: string; fileName: string }) => {
+        setRows((list) => [
+            ...list,
+            {
+                id: String(Date.now()),
+                judul,
+                jenis: "Modul",
+                atribut: attr,
+                sumber: fileName,
+                aktif: true,
+            },
+        ]);
+    };
+
+    const handleAddVideoArtikel = ({
+        judul,
+        atribut: attr,
+        jenis,
+        sumber,
+    }: {
+        judul: string;
+        atribut: string;
+        jenis: "Video" | "Artikel";
+        sumber: string;
+    }) => {
+        setRows((list) => [
+            ...list,
+            {
+                id: String(Date.now()),
+                judul,
+                jenis,
+                atribut: attr,
+                sumber,
+                aktif: true,
+            },
+        ]);
+    };
+
+    const handleConfirmDelete = () => {
+        if (!deleteTarget) return;
+        if (deleteTarget.aktif) {
+            setAktif(deleteTarget.id, false);
+        } else {
+            setRows((list) => list.filter((r) => r.id !== deleteTarget.id));
+        }
+        setDeleteTarget(null);
+    };
 
     const columns: DataTableColumn<MateriItem>[] = [
         { key: "judul", label: "Judul", align: "left" },
@@ -94,10 +127,10 @@ export function SumberMateriContent() {
                 <div className="flex items-center gap-3">
                     <Toggle
                         checked={row.aktif}
-                        onChange={(v) => setAktif(row.id, v)}
-                        label={`${row.aktif ? "Nonaktifkan" : "Aktifkan"} ${row.judul}`}
+                        onCheckedChange={(v) => setAktif(row.id, v)}
+                        aria-label={`${row.aktif ? "Nonaktifkan" : "Aktifkan"} ${row.judul}`}
                     />
-                    <Button variant="red" size="sm" onPress={() => remove(row.id)}>
+                    <Button variant="red" size="sm" onPress={() => setDeleteTarget(row)}>
                         Hapus
                     </Button>
                 </div>
@@ -127,16 +160,46 @@ export function SumberMateriContent() {
                     </select>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                    <Button variant="coral" size="md">
+                    <Button variant="coral" size="md" onPress={() => setIsAddModulOpen(true)}>
                         Tambah modul
                     </Button>
-                    <Button variant="white" size="md">
+                    <Button variant="white" size="md" onPress={() => setIsAddVideoArtikelOpen(true)}>
                         Tambah video atau artikel
                     </Button>
                 </div>
             </div>
 
             <DataTable<MateriItem> ariaLabel="Tabel Sumber Materi" columns={columns} rows={filtered} />
+
+            <TambahModulModal
+                isOpen={isAddModulOpen}
+                onOpenChange={setIsAddModulOpen}
+                atributOptions={atributOptions}
+                onSubmit={handleAddModul}
+            />
+
+            <TambahVideoArtikelModal
+                isOpen={isAddVideoArtikelOpen}
+                onOpenChange={setIsAddVideoArtikelOpen}
+                atributOptions={atributOptions}
+                onSubmit={handleAddVideoArtikel}
+            />
+
+            <ConfirmModal
+                isOpen={Boolean(deleteTarget)}
+                onOpenChange={(open) => {
+                    if (!open) setDeleteTarget(null);
+                }}
+                title={deleteTarget?.aktif ? "Sumber aktif tidak bisa dihapus" : "Konfirmasi"}
+                message={
+                    deleteTarget?.aktif
+                        ? "Sumber ini masih aktif. Jika ingin menghapus harus menonaktifkan sumber terlebih dahulu."
+                        : `Hapus sumber ${deleteTarget?.judul ?? ""}?`
+                }
+                confirmLabel={deleteTarget?.aktif ? "Nonaktifkan" : "Hapus"}
+                confirmVariant="red"
+                onConfirm={handleConfirmDelete}
+            />
         </div>
     );
 }

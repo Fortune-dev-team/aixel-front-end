@@ -1,10 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { FormField } from "@/components/ui/formfield";
 import { Button } from "@/components/ui/button";
+import { ConfirmModal } from "../widgets/confirm-modal";
 
 export function AturanContent() {
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
     return (
         <div className="flex flex-col gap-6 max-w-7xl mx-auto">
             {/* Header */}
@@ -20,7 +23,10 @@ export function AturanContent() {
             {/* Form Card */}
             <div className="max-w-xl rounded-2xl border-2 border-black bg-white p-6 shadow-[4px_4px_0_0_#111111]">
                 <form
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        setIsConfirmOpen(true);
+                    }}
                     className="flex flex-col gap-4"
                 >
                     <FormField
@@ -58,12 +64,28 @@ export function AturanContent() {
                     />
 
                     <div className="pt-2">
-                        <Button variant="coral" size="md">
+                        <Button
+                            variant="coral"
+                            size="md"
+                            onPress={() => setIsConfirmOpen(true)}
+                        >
                             Simpan Aturan
                         </Button>
                     </div>
                 </form>
             </div>
+
+            <ConfirmModal
+                isOpen={isConfirmOpen}
+                onOpenChange={setIsConfirmOpen}
+                title="Konfirmasi"
+                message="Simpan aturan? Aturan akan berlaku untuk semua pengguna."
+                confirmLabel="Simpan"
+                confirmVariant="coral"
+                onConfirm={() => {
+                    // Persist rule changes
+                }}
+            />
         </div>
     );
 }
